@@ -24,9 +24,7 @@ variables:
 jobs:
   - job: NPMPublish
     displayName: NPM Publish
-    pool:
-      vmImage: 'ubuntu-latest'
-
+    pool: cxe-ubuntu-20-04-small
     steps:
       - task: NodeTool@0
         inputs:
@@ -62,7 +60,7 @@ jobs:
         displayName: 📒 Generate Manifest Npm
         inputs:
           BuildDropPath: $(System.DefaultWorkingDirectory)
-     
+
       - task: PublishPipelineArtifact@1
         displayName: 📒 Publish Manifest Npm
         inputs:
@@ -74,6 +72,9 @@ jobs:
     pool:
       vmImage: 'macos-11'
       demands: ['xcode', 'sh', 'npm']
+    variables:
+      - name: BUILDSECMON_OPT_IN
+        value: true
     timeoutInMinutes: 90 # how long to run the job before automatically cancelling
     cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
 
@@ -82,8 +83,7 @@ jobs:
 
   - job: Win32NuGetPublish
     displayName: Win32 FluentTester NuGet Publish
-    pool:
-      vmImage: 'windows-2019'
+    pool: cxe-windows-2019-small
     timeoutInMinutes: 90 # how long to run the job before automatically cancelling
     cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
 
