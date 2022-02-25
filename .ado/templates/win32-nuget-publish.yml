@@ -1,3 +1,9 @@
+parameters:
+  - name: skipNugetPublish
+    displayName: Skip Nuget Publish
+    type: boolean
+    default: false
+
 steps:
   - checkout: self
     persistCredentials: true
@@ -35,11 +41,12 @@ steps:
 
   - task: ComponentGovernanceComponentDetection@0
 
-  # # Push the NuGet package
-  # - task: NuGetCommand@2
-  #   displayName: 'NuGet push'
-  #   inputs:
-  #     command: push
-  #     packagesToPush: '$(Build.ArtifactStagingDirectory)/Microsoft.FluentUI.FluentTesterWin32.nupkg'
-  #     nuGetFeedType: external
-  #     publishFeedCredentials: react-native
+  # Push the NuGet package
+  - task: NuGetCommand@2
+    displayName: 'NuGet push'
+    condition: not(${{ parameters.skipGitPush }})
+    inputs:
+      command: push
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/Microsoft.FluentUI.FluentTesterWin32.nupkg'
+      nuGetFeedType: external
+      publishFeedCredentials: react-native

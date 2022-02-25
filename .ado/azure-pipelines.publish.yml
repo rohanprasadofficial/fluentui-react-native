@@ -17,6 +17,10 @@ parameters:
   displayName: Skip Git Push
   type: boolean
   default: false
+- name: skipNugetPublish
+  displayName: Skip Nuget Publish
+  type: boolean
+  default: false
 
 variables:
   - group: 'FluentUI React Native Secrets'
@@ -85,6 +89,8 @@ jobs:
 
     steps:
       - template: templates/apple-nuget-publish.yml
+        parameters:
+          skipNugetPublish: ${{ parameters.skipNugetPublish }}
 
   - job: Win32NuGetPublish
     displayName: Win32 FluentTester NuGet Publish
@@ -94,3 +100,5 @@ jobs:
 
     steps:
       - template: templates/win32-nuget-publish.yml
+        parameters:
+          skipNugetPublish: ${{ parameters.skipNugetPublish }}
