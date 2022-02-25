@@ -23,7 +23,7 @@ parameters:
   default: false
 
 variables:
- # - group: 'FluentUI React Native Secrets'
+  - group: 'FluentUI React Native Secrets'
   - group: InfoSec-SecurityResults
   - name: tags
     value: production,externalfacing
