@@ -92,11 +92,14 @@ steps:
       packagesToPack: 'package.nuspec'
       buildProperties: buildNumber=$(sanitizedBuildNumber);commitId=$(Build.SourceVersion);repoUri=$(Build.Repository.Uri)
 
-  # # push the package package
-  # - task: NuGetCommand@2
-  #   displayName: 'NuGet push'
-  #   inputs:
-  #     command: push
-  #     packagesToPush: '$(Build.ArtifactStagingDirectory)/Microsoft.FluentUI.ReactNative.*.nupkg'
-  #     nuGetFeedType: external
-  #     publishFeedCredentials: react-native
+  - task: ComponentGovernanceComponentDetection@0
+
+  # push the package package
+  - task: NuGetCommand@2
+    displayName: 'NuGet push'
+    condition: not(${{ parameters.skipGitPush }})
+    inputs:
+      command: push
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/Microsoft.FluentUI.ReactNative.*.nupkg'
+      publishVstsFeed: Office
+

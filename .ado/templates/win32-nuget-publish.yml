@@ -48,5 +48,4 @@ steps:
     inputs:
       command: push
       packagesToPush: '$(Build.ArtifactStagingDirectory)/Microsoft.FluentUI.FluentTesterWin32.nupkg'
-      nuGetFeedType: external
-      publishFeedCredentials: react-native
+      publishVstsFeed: Office
