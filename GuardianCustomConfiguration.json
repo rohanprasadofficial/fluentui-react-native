@@ -1,0 +1,19 @@
+{
+  "Enabled": true,
+  "Tools": {
+    "CredScan": {
+      "Enabled": true,
+      "Inputs": {
+          "suppressionsFile": "/.config/CredScanSuppressions.json"
+      }
+    },
+    "ESLint": {
+      "Enabled": true,
+      "Inputs": {
+        "Configuration": "recommended",
+        "Parser": "@typescript-eslint/parser",
+        "ParserOptions": ""
+      }
+    }
+  }
+}

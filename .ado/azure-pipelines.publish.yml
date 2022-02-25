@@ -20,6 +20,9 @@ parameters:
 
 variables:
   - group: 'NPM and Github Secrets'
+  - group: InfoSec-SecurityResults
+  - name: tags
+    value: production,externalfacing
 
 jobs:
   - job: NPMPublish
@@ -62,7 +65,7 @@ jobs:
         displayName: 📒 Generate Manifest Npm
         inputs:
           BuildDropPath: $(System.DefaultWorkingDirectory)
-     
+
       - task: PublishPipelineArtifact@1
         displayName: 📒 Publish Manifest Npm
         inputs:
