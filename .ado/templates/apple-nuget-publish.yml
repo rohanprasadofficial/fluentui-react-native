@@ -75,6 +75,8 @@ steps:
       artifactName: SBom-Apple-$(System.JobAttempt)
       targetPath: $(System.DefaultWorkingDirectory)/_manifest
 
+  - task: ComponentGovernanceComponentDetection@0
+
   # pack the nuspec
   - task: NuGetCommand@2
     displayName: 'NuGet pack'
@@ -83,11 +85,11 @@ steps:
       packagesToPack: 'package.nuspec'
       buildProperties: buildNumber=$(sanitizedBuildNumber);commitId=$(Build.SourceVersion);repoUri=$(Build.Repository.Uri)
 
-  # push the package package
-  - task: NuGetCommand@2
-    displayName: 'NuGet push'
-    inputs:
-      command: push
-      packagesToPush: '$(Build.ArtifactStagingDirectory)/Microsoft.FluentUI.ReactNative.*.nupkg'
-      nuGetFeedType: external
-      publishFeedCredentials: react-native
+  # # push the package package
+  # - task: NuGetCommand@2
+  #   displayName: 'NuGet push'
+  #   inputs:
+  #     command: push
+  #     packagesToPush: '$(Build.ArtifactStagingDirectory)/Microsoft.FluentUI.ReactNative.*.nupkg'
+  #     nuGetFeedType: external
+  #     publishFeedCredentials: react-native

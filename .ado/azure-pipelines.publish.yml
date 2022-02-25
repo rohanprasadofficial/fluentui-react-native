@@ -19,7 +19,10 @@ parameters:
   default: false
 
 variables:
-  - group: 'NPM and Github Secrets'
+  - group: 'FluentUI React Native Secrets'
+  - group: InfoSec-SecurityResults
+  - name: tags
+    value: production,externalfacing
 
 jobs:
   - job: NPMPublish
@@ -52,9 +55,9 @@ jobs:
         displayName: Enable No-Publish (git)
         condition: ${{ parameters.skipGitPush }}
 
-      - script: |
-          yarn publish:beachball -- $(SkipNpmPublishArgs) $(SkipGitPushPublishArgs) -b origin/master -n $(npmAuth) --access public -y
-        displayName: 'Publish NPM Packages'
+      # - script: |
+      #     yarn publish:beachball -- $(SkipNpmPublishArgs) $(SkipGitPushPublishArgs) -b origin/master -n $(npmAuth) --access public -y
+      #   displayName: 'Publish NPM Packages'
 
       - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
         displayName: 📒 Generate Manifest Npm
@@ -66,6 +69,8 @@ jobs:
         inputs:
           artifactName: SBom-Npm-$(System.JobAttempt)
           targetPath: $(System.DefaultWorkingDirectory)/_manifest
+
+      - task: ComponentGovernanceComponentDetection@0
 
   - job: NuGetPublish
     displayName: NuGet Publish
