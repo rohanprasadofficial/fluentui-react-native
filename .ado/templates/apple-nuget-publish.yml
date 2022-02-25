@@ -86,7 +86,6 @@ steps:
   # pack the nuspec
   - task: NuGetCommand@2
     displayName: 'NuGet pack'
-    condition: not(${{ parameters.skipGitPush }})
     inputs:
       command: pack
       packagesToPack: 'package.nuspec'
