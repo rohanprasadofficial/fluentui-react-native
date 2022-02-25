@@ -97,7 +97,7 @@ steps:
   # push the package package
   - task: NuGetCommand@2
     displayName: 'NuGet push'
-    condition: not(${{ parameters.skipGitPush }})
+    condition: not(${{ parameters.skipNugetPublish }})
     inputs:
       command: push
       packagesToPush: '$(Build.ArtifactStagingDirectory)/Microsoft.FluentUI.ReactNative.*.nupkg'
