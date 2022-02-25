@@ -31,7 +31,7 @@ variables:
 jobs:
   - job: NPMPublish
     displayName: NPM Publish
-    pool: cxe-ubuntu-20-04-small
+    pool: Azure-Pipelines-EO-Ubuntu2004-Office
     steps:
       - task: NodeTool@0
         inputs:
