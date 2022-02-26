@@ -6,7 +6,7 @@
       "Inputs": {
         "Configuration": "recommended",
         "Parser": "@typescript-eslint/parser",
-        "ParserOptions": "",
+        "ParserOptions": "sourceType:script",
         "CustomEnvironments": true,
         "EnvironmentsBrowser": true,
         "EnvironmentsEs6": true,
