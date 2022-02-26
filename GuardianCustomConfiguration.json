@@ -6,7 +6,7 @@
       "Inputs": {
         "Configuration": "recommended",
         "Parser": "@typescript-eslint/parser",
-        "ParserOptions": "sourceType:script",
+        "ParserOptions": "sourceType:script\necmaVersion:2017",
         "CustomEnvironments": true,
         "EnvironmentsBrowser": true,
         "EnvironmentsEs6": true,
