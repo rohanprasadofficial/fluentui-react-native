@@ -81,8 +81,6 @@ steps:
       artifactName: SBom-Apple-$(System.JobAttempt)
       targetPath: $(System.DefaultWorkingDirectory)/_manifest
 
-  - task: ComponentGovernanceComponentDetection@0
-
   # pack the nuspec
   - task: NuGetCommand@2
     displayName: 'NuGet pack'

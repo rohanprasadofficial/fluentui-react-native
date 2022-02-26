@@ -59,9 +59,9 @@ jobs:
         displayName: Enable No-Publish (git)
         condition: ${{ parameters.skipGitPush }}
 
-      # - script: |
-      #     yarn publish:beachball -- $(SkipNpmPublishArgs) $(SkipGitPushPublishArgs) -b origin/master -n $(npmAuth) --access public -y
-      #   displayName: 'Publish NPM Packages'
+      - script: |
+          yarn publish:beachball -- $(SkipNpmPublishArgs) $(SkipGitPushPublishArgs) -b origin/master -n $(npmAuth) --access public -y
+        displayName: 'Publish NPM Packages'
 
       - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
         displayName: 📒 Generate Manifest Npm
