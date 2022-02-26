@@ -8,7 +8,6 @@
         "Parser": "@typescript-eslint/parser",
         "ParserOptions": "sourceType:script\necmaVersion:2017",
         "CustomEnvironments": true,
-        "EnvironmentsBrowser": true,
         "EnvironmentsEs6": true,
         "EnvironmentsNode": true
       }
