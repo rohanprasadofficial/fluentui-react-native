@@ -54,7 +54,7 @@ function moveAndRenameTemplates(from, to, name) {
 }
 
 function insertCode(name) {
-  src(`${TEST_PAGES_WIN32_PATH}testPages.win32.ts`)
+  src(`${TEST_PAGES_WIN32_PATH}testPages.ts`)
     .pipe(
       through2.obj(function (file, _, callback) {
         if (!(file.isDirectory() || file.isNull()) && file.isBuffer()) {
