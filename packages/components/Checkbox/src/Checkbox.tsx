@@ -8,7 +8,7 @@ import { compose, mergeProps, withSlots, UseSlots } from '@fluentui-react-native
 import { useCheckbox } from './useCheckbox';
 import { Svg, Path } from 'react-native-svg';
 
-const nonAndroidProps: string[] = ['size', 'shape', 'label', 'required', 'labelPosition', 'tooltip'];
+const unsupportedAndroidProps: string[] = ['size', 'shape', 'required', 'labelPosition', 'tooltip'];
 
 export const Checkbox = compose<CheckboxType>({
   displayName: checkboxName,
@@ -21,8 +21,12 @@ export const Checkbox = compose<CheckboxType>({
     required: Text,
   },
   useRender: (userProps: CheckboxProps, useSlots: UseSlots<CheckboxType>) => {
+    // Removal of tokens which are not supported for Android
     {
-      Platform.OS === 'android' && nonAndroidProps.map((e) => Reflect.deleteProperty(userProps, e));
+      Platform.OS === 'android' &&
+        unsupportedAndroidProps.map((e) => {
+          Reflect.deleteProperty(userProps, e);
+        });
     }
 
     // configure props and state for checkbox based on user props
@@ -58,13 +62,13 @@ export const Checkbox = compose<CheckboxType>({
 
       return (
         <Slots.root {...mergedProps}>
-          {Platform.OS !== 'android' && Checkbox.state.labelIsBefore && labelComponent}
+          {Checkbox.state.labelIsBefore && labelComponent}
           <Slots.checkbox>
             <Slots.checkmark key="checkmark" viewBox="0 0 12 12">
               {checkmarkPath}
             </Slots.checkmark>
           </Slots.checkbox>
-          {Platform.OS !== 'android' && !Checkbox.state.labelIsBefore && labelComponent}
+          {!Checkbox.state.labelIsBefore && labelComponent}
         </Slots.root>
       );
     };
