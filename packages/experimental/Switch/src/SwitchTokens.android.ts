@@ -4,47 +4,55 @@ import { SwitchTokens } from './Switch.types';
 
 export const defaultSwitchTokens: TokenSettings<SwitchTokens, Theme> = (t: Theme) => ({
   borderRadius: 26,
-  minHeight: 28,
-  minWidth: 40,
   thumbSize: 26,
   thumbRadius: 26,
   trackHeight: 32,
   trackWidth: 52,
-  padding: 2,
-  thumbMargin: 2,
+  thumbMargin: 3,
+  trackMarginTop: 2,
+  trackMarginBottom: 2,
+  trackMarginLeft: 2,
+  trackMarginRight: 2,
+
+  beforeContent: {
+    trackMarginLeft: 8,
+  },
+
+  afterContent: {
+    trackMarginRight: 8,
+  },
+
+  before: {
+    flexDirection: 'row',
+    toggleContainerFlexDirection: 'row',
+  },
+
+  above: {
+    flexDirection: 'column',
+    toggleContainerFlexDirection: 'row',
+  },
+
+  after: {
+    flexDirection: 'row-reverse',
+    toggleContainerFlexDirection: 'row-reverse',
+  },
 
   toggleOn: {
     trackColor: t.colors.brandBackground,
-    thumbColor: '#fff', // Needs to be updated after latest token checkin
+    thumbColor: t.colors.neutralBackgroundLightStatic,
     justifyContent: 'flex-end',
     disabled: {
       trackColor: t.colors.brandBackgroundDisabled,
-      thumbColor: t.colors.defaultDisabledBackground, // Needs to be updated after latest token checkin
+      thumbColor: t.colors.neutralBackgroundLightStaticDisabled,
     },
   },
-
   toggleOff: {
-    trackColor: t.colors.brandBackground3,
-    thumbColor: t.colors.neutralBackgroundDisabled, // Needs to be updated after latest token checkin
+    trackColor: t.colors.neutralBackground5,
+    thumbColor: t.colors.neutralBackgroundLightStatic,
     justifyContent: 'flex-start',
-    hovered: {
-      trackColor: t.colors.neutralForegroundInvertedLinkHover,
-      thumbColor: t.colors.neutralStrokeAccessibleHover,
-      borderColor: t.colors.neutralStrokeAccessibleHover,
-    },
-    pressed: {
-      trackColor: t.colors.neutralForegroundOnBrandPressed,
-      thumbColor: t.colors.neutralStrokeAccessiblePressed,
-      borderColor: t.colors.neutralStrokeAccessiblePressed,
-    },
     disabled: {
-      trackColor: t.colors.neutralBackgroundDisabled,
-      thumbColor: t.colors.neutralStrokeDisabled,
-      borderColor: t.colors.neutralStrokeDisabled,
+      trackColor: t.colors.neutralBackground5,
+      thumbColor: t.colors.neutralBackgroundLightStaticDisabled,
     },
-  },
-
-  focused: {
-    focusStrokeColor: t.colors.strokeFocus2,
   },
 });

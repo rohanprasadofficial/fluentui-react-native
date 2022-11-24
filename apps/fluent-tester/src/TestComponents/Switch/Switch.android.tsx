@@ -10,7 +10,6 @@ const StandardUsage: React.FunctionComponent = () => {
     <View style={commonTestStyles.settingsPicker}>
       <Switch defaultChecked={true} label={'Default Checked True'} />
       <Switch defaultChecked={true} disabled label={'Default  disabled Checked True'} />
-
       <Switch defaultChecked={false} label={'Default Checked False'} />
       <Switch defaultChecked={false} disabled label={'Default  disabled Checked False'} />
     </View>

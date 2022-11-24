@@ -28,6 +28,8 @@ export function mapPipelineToTheme(pipelineOutput: any): AliasColorTokens {
     neutralForegroundDisabled2: pipelineOutput.neutralForegroundDisabled2.fillColorRest,
 
     neutralForegroundOnColor: pipelineOutput.neutralForegroundOnColor.fillColorRest,
+    neutralBackgroundLightStatic: pipelineOutput.neutralBackgroundLightStatic.fillColorRest,
+    neutralBackgroundLightStaticDisabled: pipelineOutput.neutralBackgroundLightStaticDisabled.fillColorRest,
 
     neutralBackground1: pipelineOutput.neutralBackground1.fillColorRest,
     neutralBackground1Hover: pipelineOutput.neutralBackground1.fillColorHover,
