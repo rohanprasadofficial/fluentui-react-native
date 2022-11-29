@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, Switch, View } from 'react-native';
 import { Text, ToggleButton, Separator, Link } from '@fluentui/react-native';
 import { Stack } from '@fluentui-react-native/stack';
 import { stackStyle } from './Common/styles';
@@ -130,7 +130,16 @@ export const Test = (props: TestProps): React.ReactElement<Record<string, never>
       <Stack style={stackStyle}>
         <View style={styles.statusView}>
           <Text variant="headerStandard">Platform Status</Text>
-          <ToggleButton iconOnly={true} icon={toggleIconProps} onClick={() => setShowStatus(!showStatus)} />
+          {Platform.OS === 'android' ? (
+            <Switch
+              value={showStatus}
+              onValueChange={(value) => {
+                setShowStatus(value);
+              }}
+            />
+          ) : (
+            <ToggleButton iconOnly={true} icon={toggleIconProps} onClick={() => setShowStatus(!showStatus)} />
+          )}
         </View>
         {showStatus && (
           <>
