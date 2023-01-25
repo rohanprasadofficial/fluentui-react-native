@@ -1,14 +1,11 @@
 import { UseStylingOptions, buildProps } from '@fluentui-react-native/framework';
-import { ActivityIndicatorProps as CoreActivityIndicatorProps, Appearance } from 'react-native';
 import {
   activityIndicatorName,
   ActivityIndicatorProps,
   FluentActivityIndicatorSlotProps,
   ActivityIndicatorTokens,
-  CoreActivityIndicatorSlotProps,
-  ActivityIndicatorSize,
 } from './ActivityIndicator.types';
-import assertNever from 'assert-never';
+import { defaultActivityIndicatorTokens } from './ActivityIndicatorTokens';
 
 export const diameterSizeMap: { [key: string]: number } = {
   xSmall: 12,
@@ -25,37 +22,8 @@ export const lineThicknessSizeMap: { [key: string]: number } = {
   xLarge: 4,
 };
 
-// Size coversion ramp from the Fluent ActivityIndicator size to the RN ActivityIndicator.
-export function coreSizeFromFluentSize(fluentSize: ActivityIndicatorSize): CoreActivityIndicatorProps['size'] {
-  if (typeof fluentSize === 'undefined') {
-    return fluentSize;
-  }
-
-  switch (fluentSize) {
-    case 'xSmall':
-      return 'small';
-    case 'small':
-      return 'small';
-    case 'medium':
-      return 'small';
-    case 'large':
-      return 'large';
-    case 'xLarge':
-      return 'large';
-    default:
-      assertNever(fluentSize);
-  }
-}
-
 export const stylingSettings: UseStylingOptions<ActivityIndicatorProps, FluentActivityIndicatorSlotProps, ActivityIndicatorTokens> = {
-  tokens: [
-    () => ({
-      activityIndicatorColor: Appearance.getColorScheme() === 'light' ? '#BDBDBD' : '#666666',
-      lineThickness: 'medium',
-      size: 'medium',
-    }),
-    activityIndicatorName,
-  ],
+  tokens: [defaultActivityIndicatorTokens, activityIndicatorName],
   tokensThatAreAlsoProps: 'all',
   slotProps: {
     root: buildProps(
@@ -63,7 +31,7 @@ export const stylingSettings: UseStylingOptions<ActivityIndicatorProps, FluentAc
         activityIndicatorColor: tokens.activityIndicatorColor,
         size: tokens.size,
         lineThickness: tokens.lineThickness != 'medium' ? tokens.lineThickness : tokens.size,
-        accessibilityLabel: 'progressbar',
+        accessibilityLabel: 'spinner',
         accessible: true,
         style: {
           width: diameterSizeMap[tokens.size],
@@ -78,26 +46,6 @@ export const stylingSettings: UseStylingOptions<ActivityIndicatorProps, FluentAc
         height: diameterSizeMap[tokens.size],
       }),
       ['size'],
-    ),
-  },
-};
-
-// Minimal styling settings for the RN Core ActivityIndicator
-export const coreStylingSettings: UseStylingOptions<ActivityIndicatorProps, CoreActivityIndicatorSlotProps, ActivityIndicatorTokens> = {
-  tokens: [
-    () => ({
-      size: 'small',
-    }),
-    activityIndicatorName,
-  ],
-  tokensThatAreAlsoProps: 'all',
-  slotProps: {
-    root: buildProps(
-      (tokens: ActivityIndicatorTokens) => ({
-        color: tokens.activityIndicatorColor,
-        ...(tokens.size && { size: coreSizeFromFluentSize(tokens.size) }), // Only pass in the prop if defined
-      }),
-      ['activityIndicatorColor', 'size'],
     ),
   },
 };

@@ -1,4 +1,4 @@
-import { Animated, ActivityIndicatorProps as CoreActivityIndicatorProps } from 'react-native';
+import { Animated, ColorValue } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
 export const activityIndicatorName = 'ActivityIndicator';
@@ -10,9 +10,9 @@ export type ActivityIndicatorSize = 'xSmall' | 'small' | 'medium' | 'large' | 'x
 export interface ActivityIndicatorTokens {
   /**
    * ActivityIndicator element color
-   * @defaultValue 'BDBDBD' for light mode, '666666' for dark mode
+   * @defaultValue 'grey56' for light mode, 'grey72' for dark mode
    */
-  activityIndicatorColor?: string;
+  activityIndicatorColor?: ColorValue;
   /**
    * Line thickness of the ActivityIndicator
    * @defaultValue 'medium' or what size is set to
@@ -25,7 +25,7 @@ export interface ActivityIndicatorTokens {
   size?: ActivityIndicatorSize;
 }
 
-export interface ActivityIndicatorProps extends ActivityIndicatorTokens, Omit<CoreActivityIndicatorProps, 'size'> {
+export interface ActivityIndicatorProps extends ActivityIndicatorTokens {
   /**
    * ActivityIndicator animating or not
    * @defaultValue 'true'
@@ -45,15 +45,5 @@ export interface FluentActivityIndicatorSlotProps {
 export interface FluentActivityIndicatorType {
   props: ActivityIndicatorProps;
   slotProps: FluentActivityIndicatorSlotProps;
-  tokens: ActivityIndicatorTokens;
-}
-
-export interface CoreActivityIndicatorSlotProps {
-  root: CoreActivityIndicatorProps;
-}
-
-export interface CoreActivityIndicatorType {
-  props: ActivityIndicatorProps;
-  slotProps: CoreActivityIndicatorSlotProps;
   tokens: ActivityIndicatorTokens;
 }
