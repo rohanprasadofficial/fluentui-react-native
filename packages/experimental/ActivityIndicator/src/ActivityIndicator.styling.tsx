@@ -2,7 +2,7 @@ import { UseStylingOptions, buildProps } from '@fluentui-react-native/framework'
 import {
   activityIndicatorName,
   ActivityIndicatorProps,
-  FluentActivityIndicatorSlotProps,
+  ActivityIndicatorSlotProps,
   ActivityIndicatorTokens,
 } from './ActivityIndicator.types';
 import { defaultActivityIndicatorTokens } from './ActivityIndicatorTokens';
@@ -22,7 +22,7 @@ export const lineThicknessSizeMap: { [key: string]: number } = {
   xLarge: 4,
 };
 
-export const stylingSettings: UseStylingOptions<ActivityIndicatorProps, FluentActivityIndicatorSlotProps, ActivityIndicatorTokens> = {
+export const stylingSettings: UseStylingOptions<ActivityIndicatorProps, ActivityIndicatorSlotProps, ActivityIndicatorTokens> = {
   tokens: [defaultActivityIndicatorTokens, activityIndicatorName],
   tokensThatAreAlsoProps: 'all',
   slotProps: {

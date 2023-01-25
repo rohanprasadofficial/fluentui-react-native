@@ -38,12 +38,12 @@ export interface ActivityIndicatorProps extends ActivityIndicatorTokens {
   hidesWhenStopped?: boolean;
 }
 
-export interface FluentActivityIndicatorSlotProps {
+export interface ActivityIndicatorSlotProps {
   root: ActivityIndicatorProps;
   svg: Animated.AnimatedProps<SvgProps>;
 }
-export interface FluentActivityIndicatorType {
+export interface ActivityIndicatorType {
   props: ActivityIndicatorProps;
-  slotProps: FluentActivityIndicatorSlotProps;
+  slotProps: ActivityIndicatorSlotProps;
   tokens: ActivityIndicatorTokens;
 }
