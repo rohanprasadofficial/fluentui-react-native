@@ -12,7 +12,6 @@ import {
   MenuList,
   MenuDivider,
   MenuAn,
-  MenuItemAd,
 } from '@fluentui-react-native/menu';
 import { Stack } from '@fluentui-react-native/stack';
 import { TextV1 as Text } from '@fluentui-react-native/text';
@@ -27,19 +26,28 @@ import { stackStyle } from '../Common/styles';
 import { Test } from '../Test';
 import type { TestSection, PlatformStatus } from '../Test';
 
+type MenuVisibility = {
+  [key: string]: boolean | undefined;
+};
+
 const MenuDefault: React.FunctionComponent = () => {
+  const [visible, setVisible] = React.useState<MenuVisibility>({});
+
+  const _toggleMenu = (name: string) => () => setVisible({ ...visible, [name]: !visible[name] });
+
+  const _getVisible = (name: string) => !!visible[name];
+  console.log(MenuAn);
   return (
     <Stack style={stackStyle}>
       <MenuAn
-        visible={true}
-        onDismiss={() => {
-          console.log('sd');
-        }}
-        anchor={<ButtonV1>Hello</ButtonV1>}
+        visible={_getVisible('menu2')}
+        onDismiss={_toggleMenu('menu2')}
+        anchor={<Button onClick={_toggleMenu('menu2')}>Menu with icons</Button>}
       >
-        <MenuAn.children
+        <MenuAn.Item
+          leadingIcon="undo"
           onPress={() => {
-            console.log('sd');
+            console.log('Test');
           }}
           title="Undo"
         />

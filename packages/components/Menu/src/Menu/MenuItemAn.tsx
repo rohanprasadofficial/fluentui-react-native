@@ -5,28 +5,19 @@ import { StyleSheet, View } from 'react-native';
 
 import { TextV1 as Text } from '@fluentui-react-native/text';
 
-import { MAX_WIDTH, MIN_WIDTH } from './utils';
+import { getContentMaxWidth, getMenuItemColor, MAX_WIDTH, MIN_WIDTH } from './utils';
 
 export type Props = {
   /**
    * Title text for the `MenuItem`.
    */
   title: React.ReactNode;
-  /**
-   * @renamed Renamed from 'icon' to 'leadingIcon' in v5.x
-   *
-   * Leading icon to display for the `MenuItem`.
 
   /**
    * Whether the 'item' is disabled. A disabled 'item' is greyed out and `onPress` is not called on touch.
    */
   disabled?: boolean;
-  /**
-   * @supported Available in v5.x with theme version 3
-   *
-   * Sets min height with densed layout.
-   */
-  dense?: boolean;
+
   /**
    * Function to execute on press.
    */
@@ -37,9 +28,6 @@ export type Props = {
   style?: StyleProp<ViewStyle>;
   contentStyle?: StyleProp<ViewStyle>;
   titleStyle?: StyleProp<TextStyle>;
-  /**
-   * @optional
-   */
   /**
    * TestID used for testing purposes
    */
@@ -78,12 +66,24 @@ export type Props = {
  * export default MyComponent;
  * ```
  */
-export const MenuItemAn = ({ dense, title, disabled, onPress, style, contentStyle, testID, titleStyle, accessibilityLabel }: Props) => {
+export const MenuItemAn = ({ title, disabled, onPress, style, contentStyle, testID, titleStyle, accessibilityLabel }: Props) => {
+  const { titleColor } = getMenuItemColor({
+    disabled,
+  });
+
   const containerPadding = 12;
+
+  const minWidth = MIN_WIDTH - 12;
+
+  const maxWidth = getContentMaxWidth();
+
+  const titleTextStyle = {
+    color: titleColor,
+  };
 
   return (
     <Pressable
-      style={[styles.container, { paddingHorizontal: containerPadding }, dense && styles.md3DenseContainer, style]}
+      style={[styles.container, { paddingHorizontal: containerPadding }, styles.md3DenseContainer, style]}
       onPress={onPress}
       disabled={disabled}
       testID={testID}
@@ -92,7 +92,11 @@ export const MenuItemAn = ({ dense, title, disabled, onPress, style, contentStyl
       accessibilityState={{ disabled }}
     >
       <View style={styles.row}>
-        <Text>Helllo Fluent</Text>
+        <View style={[styles.item, styles.content, { minWidth, maxWidth }, contentStyle]} pointerEvents="none">
+          <Text selectable={false} numberOfLines={1} style={[styles.title, titleTextStyle, titleStyle]}>
+            Hello {title}
+          </Text>
+        </View>
       </View>
     </Pressable>
   );
@@ -106,6 +110,7 @@ const styles = StyleSheet.create({
     maxWidth: MAX_WIDTH,
     height: 48,
     justifyContent: 'center',
+    backgroundColor: 'white',
   },
   md3DenseContainer: {
     height: 32,

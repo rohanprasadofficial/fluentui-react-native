@@ -1,10 +1,9 @@
 import * as React from 'react';
-import {
+import type {
   EmitterSubscription,
   KeyboardEvent as RNKeyboardEvent,
   LayoutRectangle,
   NativeEventSubscription,
-  Pressable,
   ScrollViewProps,
   StyleProp,
   ViewStyle,
@@ -26,8 +25,10 @@ import {
 import { NativeModules } from 'react-native';
 
 import { addEventListener } from './addEventListener';
-import MenuItem from './MenuItemAn';
+import MenuItemAn from './MenuItemAn';
 import Portal from '../../../Callout/src/Portal/Portal';
+
+export type $Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 
 // Use the existence of expo-constants as a heuristic for determining if the
 // status bar is translucent on Android. This should be replaced in the future
@@ -77,10 +78,6 @@ export type Props = {
    */
   contentStyle?: Animated.WithAnimatedValue<StyleProp<ViewStyle>>;
   style?: StyleProp<ViewStyle>;
-  /**
-   * @optional
-   */
-  theme: InternalTheme;
   /**
    * Inner ScrollView prop
    */
@@ -164,9 +161,9 @@ const WINDOW_LAYOUT = Dimensions.get('window');
  * `Modal` contents within a `Provider` in order for the menu to show. This
  * wrapping is not necessary if you use Paper's `Modal` instead.
  */
-class Menu extends React.Component<Props, State> {
-  // @component ./MenuItem.tsx
-  static Item = MenuItem;
+export class MenuAn extends React.Component<Props, State> {
+  // @component ./MenuItemAn.tsx
+  static Item = MenuItemAn;
 
   static defaultProps = {
     statusBarHeight: APPROX_STATUSBAR_HEIGHT,
@@ -344,17 +341,16 @@ class Menu extends React.Component<Props, State> {
       () => {
         this.attachListeners();
 
-        const { animation } = this.props.theme;
         Animated.parallel([
           Animated.timing(this.state.scaleAnimation, {
             toValue: { x: menuLayout.width, y: menuLayout.height },
-            duration: ANIMATION_DURATION * animation.scale,
+            duration: ANIMATION_DURATION,
             easing: EASING,
             useNativeDriver: true,
           }),
           Animated.timing(this.state.opacityAnimation, {
             toValue: 1,
-            duration: ANIMATION_DURATION * animation.scale,
+            duration: ANIMATION_DURATION,
             easing: EASING,
             useNativeDriver: true,
           }),
@@ -370,12 +366,11 @@ class Menu extends React.Component<Props, State> {
   private hide = () => {
     this.removeListeners();
 
-    const { animation } = this.props.theme;
     Animated.timing(this.state.opacityAnimation, {
       toValue: 0,
-      duration: ANIMATION_DURATION * animation.scale,
+      duration: ANIMATION_DURATION,
       easing: EASING,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start(({ finished }) => {
       if (finished) {
         this.setState({ menuLayout: { width: 0, height: 0 }, rendered: false });
@@ -399,18 +394,15 @@ class Menu extends React.Component<Props, State> {
       visible,
       anchor,
       anchorPosition,
-      contentStyle,
       style,
       children,
-      theme,
       statusBarHeight,
       onDismiss,
       overlayAccessibilityLabel,
       keyboardShouldPersistTaps,
-      testID,
     } = this.props;
 
-    const { rendered, menuLayout, anchorLayout, opacityAnimation, scaleAnimation, windowLayout } = this.state;
+    const { rendered, menuLayout, anchorLayout, scaleAnimation, windowLayout } = this.state;
 
     let { left, top } = this.state;
 
@@ -424,20 +416,20 @@ class Menu extends React.Component<Props, State> {
       default: 0,
     });
 
-    const scaleTransforms = [
-      {
-        scaleX: scaleAnimation.x.interpolate({
-          inputRange: [0, menuLayout.width],
-          outputRange: [0, 1],
-        }),
-      },
-      {
-        scaleY: scaleAnimation.y.interpolate({
-          inputRange: [0, menuLayout.height],
-          outputRange: [0, 1],
-        }),
-      },
-    ];
+    // const scaleTransforms = [
+    //   {
+    //     scaleX: scaleAnimation.x.interpolate({
+    //       inputRange: [0, menuLayout.width],
+    //       outputRange: [0, 1],
+    //     }),
+    //   },
+    //   {
+    //     scaleY: scaleAnimation.y.interpolate({
+    //       inputRange: [0, menuLayout.height],
+    //       outputRange: [0, 1],
+    //     }),
+    //   },
+    // ];
 
     // We need to translate menu while animating scale to imitate transform origin for scale animation
     const positionTransforms = [];
@@ -543,13 +535,13 @@ class Menu extends React.Component<Props, State> {
       }
     }
 
-    const shadowMenuContainerStyle = {
-      opacity: opacityAnimation,
-      transform: scaleTransforms,
-      borderRadius: theme.roundness,
-      ...(!theme.isV3 && { elevation: 8 }),
-      ...(scrollableMenuHeight ? { height: scrollableMenuHeight } : {}),
-    };
+    // const shadowMenuContainerStyle = {
+    //   opacity: opacityAnimation,
+    //   transform: scaleTransforms,
+    //   borderRadius: theme.roundness,
+    //   ...(!theme.isV3 && { elevation: 8 }),
+    //   ...(scrollableMenuHeight ? { height: scrollableMenuHeight } : {}),
+    // };
 
     const positionStyle = {
       top: this.isCoordinate(anchor) ? top : top + additionalVerticalValue,
@@ -580,21 +572,9 @@ class Menu extends React.Component<Props, State> {
               onAccessibilityEscape={onDismiss}
             >
               <Animated.View style={{ transform: positionTransforms }}>
-                <Pressable
-                  style={[
-                    styles.shadowMenuContainer,
-
-                    theme.isV3 && {
-                      backgroundColor: theme.colors.elevation.level2,
-                    },
-                  ]}
-                  {...(theme.isV3 && { elevation: 2 })}
-                  testID={`${testID}-surface`}
-                >
-                  {(scrollableMenuHeight && <ScrollView keyboardShouldPersistTaps={keyboardShouldPersistTaps}>{children}</ScrollView>) || (
-                    <React.Fragment>{children}</React.Fragment>
-                  )}
-                </Pressable>
+                {(scrollableMenuHeight && <ScrollView keyboardShouldPersistTaps={keyboardShouldPersistTaps}>{children}</ScrollView>) || (
+                  <React.Fragment>{children}</React.Fragment>
+                )}
               </Animated.View>
             </View>
           </Portal>
@@ -614,4 +594,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Menu;
+export default MenuAn;

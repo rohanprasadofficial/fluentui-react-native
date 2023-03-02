@@ -25,6 +25,9 @@ export {
   MenuItemType,
   useMenuItem,
 } from './MenuItem';
+
+export { MenuAn } from './Menu/MenuAn';
+
 export {
   MenuItemCheckbox,
   menuItemCheckboxName,
