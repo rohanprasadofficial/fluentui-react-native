@@ -9,6 +9,7 @@ import { ThemeProvider } from '@fluentui-react-native/theme';
 import type { FluentTesterProps } from './FluentTester';
 import { FluentTester } from './FluentTester';
 import { testerTheme } from './theme/index';
+import { PortalHost } from '@fluentui-react-native/callout';
 
 export const FluentTesterApp: React.FunctionComponent<FluentTesterProps> = (props) => {
   const sizeClass = useHorizontalSizeClass();
@@ -18,8 +19,10 @@ export const FluentTesterApp: React.FunctionComponent<FluentTesterProps> = (prop
   const shouldShowSinglePane = isMobile || (!isMobile && sizeClass === 'compact');
 
   return (
-    <ThemeProvider theme={testerTheme}>
-      <FluentTester enableSinglePaneView={shouldShowSinglePane} {...props} />
-    </ThemeProvider>
+    <PortalHost>
+      <ThemeProvider theme={testerTheme}>
+        <FluentTester enableSinglePaneView={shouldShowSinglePane} {...props} />
+      </ThemeProvider>
+    </PortalHost>
   );
 };

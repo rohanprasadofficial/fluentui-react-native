@@ -11,6 +11,7 @@ import { mergeSettings } from '@uifabricshared/foundation-settings';
 import { settings } from './Callout.settings';
 import type { ICalloutProps, ICalloutSlotProps, ICalloutType } from './Callout.types';
 import { calloutName } from './Callout.types';
+import Portal from './Portal/Portal';
 
 const NativeCalloutView = Platform.select({
   macos: ensureNativeComponent('FRNCallout'),
@@ -46,7 +47,7 @@ export const Callout = compose<ICalloutType>({
   },
   settings: settings,
   slots: {
-    root: NativeCalloutView,
+    root: Platform.OS === 'android' ? Portal : NativeCalloutView,
   },
   styles: {
     root: [backgroundColorTokens, borderTokens],

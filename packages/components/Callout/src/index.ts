@@ -10,3 +10,5 @@ export type {
   RestoreFocusEvent,
 } from './Callout.types';
 export { Callout } from './Callout';
+
+export { PortalHost } from './Portal/PortalHost';

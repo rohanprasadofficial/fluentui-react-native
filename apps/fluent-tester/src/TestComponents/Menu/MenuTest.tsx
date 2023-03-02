@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { ButtonV1 as Button } from '@fluentui/react-native';
+import { ButtonV1 as Button, ButtonV1 } from '@fluentui/react-native';
 import {
   Menu,
   MenuItem,
@@ -11,6 +11,8 @@ import {
   MenuPopover,
   MenuList,
   MenuDivider,
+  MenuAn,
+  MenuItemAd,
 } from '@fluentui-react-native/menu';
 import { Stack } from '@fluentui-react-native/stack';
 import { TextV1 as Text } from '@fluentui-react-native/text';
@@ -28,18 +30,20 @@ import type { TestSection, PlatformStatus } from '../Test';
 const MenuDefault: React.FunctionComponent = () => {
   return (
     <Stack style={stackStyle}>
-      <Menu>
-        <MenuTrigger>
-          <Button>Test</Button>
-        </MenuTrigger>
-        <MenuPopover>
-          <MenuList>
-            <MenuItem>A plain MenuItem</MenuItem>
-            <MenuItem disabled>A disabled MenuItem</MenuItem>
-            <MenuItem>A third plain MenuItem</MenuItem>
-          </MenuList>
-        </MenuPopover>
-      </Menu>
+      <MenuAn
+        visible={true}
+        onDismiss={() => {
+          console.log('sd');
+        }}
+        anchor={<ButtonV1>Hello</ButtonV1>}
+      >
+        <MenuAn.children
+          onPress={() => {
+            console.log('sd');
+          }}
+          title="Undo"
+        />
+      </MenuAn>
     </Stack>
   );
 };
