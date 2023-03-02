@@ -324,7 +324,7 @@ export class MenuAn extends React.Component<Props, State> {
     this.setState(
       () => ({
         left: anchorLayout.x,
-        top: anchorLayout.y,
+        top: anchorLayout.y + anchorLayout.height,
         anchorLayout: {
           height: anchorLayout.height,
           width: anchorLayout.width,
@@ -522,7 +522,7 @@ export class MenuAn extends React.Component<Props, State> {
         }),
       });
 
-      top += anchorLayout.height - (scrollableMenuHeight || menuLayout.height);
+      top += anchorLayout.height - (scrollableMenuHeight || menuLayout.height) - anchorLayout.height * 2;
 
       const bottom = top + (scrollableMenuHeight || menuLayout.height) + additionalVerticalValue;
 

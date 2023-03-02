@@ -60,20 +60,63 @@ const defaultCheckedTestCase = ['itemOne'];
 const checkedTestCase = ['itemTwo'];
 
 const MenuCheckmarks: React.FunctionComponent = () => {
+  const [visible, setVisible] = React.useState<MenuVisibility>({});
+
+  const _toggleMenu = (name: string) => () => setVisible({ ...visible, [name]: !visible[name] });
+
+  const _getVisible = (name: string) => !!visible[name];
   return (
     <Stack style={stackStyle}>
-      <Menu defaultChecked={defaultCheckedTestCase}>
-        <MenuTrigger>
-          <Button>All checkmark items</Button>
-        </MenuTrigger>
-        <MenuPopover>
-          <MenuList>
-            <MenuItemCheckbox name="itemOne">A MenuItem with checkmark</MenuItemCheckbox>
-            <MenuDivider />
-            <MenuItemCheckbox name="itemTwo">Another MenuItem with checkmark</MenuItemCheckbox>
-          </MenuList>
-        </MenuPopover>
-      </Menu>
+      <Stack style={stackStyle}>
+        <MenuAn
+          visible={_getVisible('menu5')}
+          onDismiss={_toggleMenu('menu5')}
+          anchor={<Button onClick={_toggleMenu('menu5')}>Menu with icons</Button>}
+        >
+          <MenuAn.Item
+            leadingIcon="undo"
+            onPress={() => {
+              console.log('Test');
+            }}
+            title="Undo"
+          />
+          <MenuAn.Item
+            leadingIcon="undo"
+            onPress={() => {
+              console.log('Test');
+            }}
+            title="Undo"
+          />
+          <MenuAn.Item
+            leadingIcon="undo"
+            onPress={() => {
+              console.log('Test');
+            }}
+            title="Undo"
+          />
+          <MenuAn.Item
+            leadingIcon="undo"
+            onPress={() => {
+              console.log('Test');
+            }}
+            title="Undo"
+          />
+          <MenuAn.Item
+            leadingIcon="undo"
+            onPress={() => {
+              console.log('Test');
+            }}
+            title="Undo"
+          />
+          <MenuAn.Item
+            leadingIcon="undo"
+            onPress={() => {
+              console.log('Test');
+            }}
+            title="Undo"
+          />
+        </MenuAn>
+      </Stack>
       <Menu hasCheckmarks checked={checkedTestCase}>
         <MenuTrigger>
           <Button>Some controlled checkmark items with alignment</Button>
@@ -107,6 +150,11 @@ const MenuCheckmarks: React.FunctionComponent = () => {
 
 const MenuRadioItem: React.FunctionComponent = () => {
   const [checked, setChecked] = React.useState(['itemOne']);
+  const [visible, setVisible] = React.useState<MenuVisibility>({});
+
+  const _toggleMenu = (name: string) => () => setVisible({ ...visible, [name]: !visible[name] });
+
+  const _getVisible = (name: string) => !!visible[name];
   const onCheckedChange = React.useCallback(
     (_e, checkedChange) => {
       setChecked(checkedChange);
@@ -117,19 +165,54 @@ const MenuRadioItem: React.FunctionComponent = () => {
   return (
     <Stack style={stackStyle}>
       <Text>Current checked: {checked.join(' ')}</Text>
-      <Menu defaultChecked={defaultCheckedTestCase} onCheckedChange={onCheckedChange}>
-        <MenuTrigger>
-          <Button>Items with radio selection</Button>
-        </MenuTrigger>
-        <MenuPopover>
-          <MenuList>
-            <MenuItemRadio name="itemOne">A MenuItem with checkmark and radio selection</MenuItemRadio>
-            <MenuItemRadio name="itemTwo">Another MenuItem with checkmark and radio selection</MenuItemRadio>
-            <MenuItemRadio name="itemThree">A third MenuItem with checkmark and radio selection</MenuItemRadio>
-            <MenuItemCheckbox name="itemFour">A MenuItem with checkmark and toggle selection</MenuItemCheckbox>
-          </MenuList>
-        </MenuPopover>
-      </Menu>
+      <MenuAn
+        visible={_getVisible('menu5')}
+        onDismiss={_toggleMenu('menu5')}
+        anchor={<Button onClick={_toggleMenu('menu5')}>Menu with icons</Button>}
+      >
+        <MenuAn.Item
+          leadingIcon="undo"
+          onPress={() => {
+            console.log('Test');
+          }}
+          title="Undo"
+        />
+        <MenuAn.Item
+          leadingIcon="undo"
+          onPress={() => {
+            console.log('Test');
+          }}
+          title="Undo"
+        />
+        <MenuAn.Item
+          leadingIcon="undo"
+          onPress={() => {
+            console.log('Test');
+          }}
+          title="Undo"
+        />
+        <MenuAn.Item
+          leadingIcon="undo"
+          onPress={() => {
+            console.log('Test');
+          }}
+          title="Undo"
+        />
+        <MenuAn.Item
+          leadingIcon="undo"
+          onPress={() => {
+            console.log('Test');
+          }}
+          title="Undo"
+        />
+        <MenuAn.Item
+          leadingIcon="undo"
+          onPress={() => {
+            console.log('Test');
+          }}
+          title="Undo"
+        />
+      </MenuAn>
     </Stack>
   );
 };
