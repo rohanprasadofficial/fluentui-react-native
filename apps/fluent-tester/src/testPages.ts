@@ -25,6 +25,7 @@ import { NativeDatePickerTest, HOMEPAGE_NATIVEDATEPICKER_BUTTON } from './TestCo
 import { NotificationTest, HOMEPAGE_NOTIFICATION_BUTTON } from './TestComponents/Notification';
 import { PersonaTest } from './TestComponents/Persona';
 import { PersonaCoinTest } from './TestComponents/PersonaCoin';
+import { PortalTest } from './TestComponents/Portal';
 import { PressableTest } from './TestComponents/Pressable';
 import { RadioGroupLegacyTest } from './TestComponents/RadioGroupLegacy';
 import { RadioGroupV1Test } from './TestComponents/RadioGroupV1';
@@ -206,6 +207,12 @@ export const tests: TestDescription[] = [
     component: PersonaCoinTest,
     testPageButton: Constants.HOMEPAGE_PERSONACOIN_BUTTON,
     platforms: ['android', 'ios', 'macos', 'win32', 'windows'],
+  },
+  {
+    name: 'Portal',
+    component: PortalTest,
+    testPageButton: Constants.HOMEPAGE_ACTIVITY_INDICATOR_BUTTON,
+    platforms: ['android'],
   },
   {
     name: 'Pressable',
