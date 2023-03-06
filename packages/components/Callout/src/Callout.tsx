@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { findNodeHandle, Platform } from 'react-native';
+import { findNodeHandle, Platform, View } from 'react-native';
 
 import { ensureNativeComponent } from '@fluentui-react-native/component-cache';
 import { useViewCommandFocus } from '@fluentui-react-native/interactive-hooks';
@@ -11,7 +11,7 @@ import { mergeSettings } from '@uifabricshared/foundation-settings';
 import { settings } from './Callout.settings';
 import type { ICalloutProps, ICalloutSlotProps, ICalloutType } from './Callout.types';
 import { calloutName } from './Callout.types';
-
+import { Portal } from '../../../experimental/Portal/src/PortalPP/Portal';
 const NativeCalloutView = Platform.select({
   macos: ensureNativeComponent('FRNCallout'),
   default: ensureNativeComponent('RCTCallout'), // win32
@@ -46,7 +46,7 @@ export const Callout = compose<ICalloutType>({
   },
   settings: settings,
   slots: {
-    root: NativeCalloutView,
+    root: Platform.OS === 'android' ? View : NativeCalloutView,
   },
   styles: {
     root: [backgroundColorTokens, borderTokens],
