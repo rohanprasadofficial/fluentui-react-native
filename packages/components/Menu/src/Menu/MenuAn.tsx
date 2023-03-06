@@ -1,46 +1,26 @@
 import * as React from 'react';
-import type {
-  EmitterSubscription,
-  KeyboardEvent as RNKeyboardEvent,
-  LayoutRectangle,
-  NativeEventSubscription,
-  ScrollViewProps,
-  StyleProp,
-  ViewStyle,
-} from 'react-native';
+import type { StyleProp, LayoutRectangle, ViewStyle, ScrollViewProps } from 'react-native';
 import {
+  Platform,
+  StyleSheet,
   Animated,
   BackHandler,
   Dimensions,
   Easing,
-  findNodeHandle,
   I18nManager,
-  Keyboard,
-  Platform,
-  ScrollView,
-  StyleSheet,
   TouchableWithoutFeedback,
   View,
+  ScrollView,
+  findNodeHandle,
 } from 'react-native';
-import { NativeModules } from 'react-native';
 
-import { addEventListener } from './addEventListener';
 import MenuItemAn from './MenuItemAn';
+import Surface from './Surface';
 import Portal from '../../../Callout/src/Portal/Portal';
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type $Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
-
-// Use the existence of expo-constants as a heuristic for determining if the
-// status bar is translucent on Android. This should be replaced in the future
-// with react-native-safe-area-context.
-const estimatedStatusBarHeight = NativeModules.NativeUnimoduleProxy?.modulesConstants?.ExponentConstants?.statusBarHeight ?? 0;
-
-export const APPROX_STATUSBAR_HEIGHT = Platform.select({
-  android: estimatedStatusBarHeight,
-  ios: Platform.Version < 11 ? estimatedStatusBarHeight : 0,
-});
-
-export type Props = {
+const APPROX_STATUSBAR_HEIGHT = 0;
+type Props = {
   /**
    * Whether the Menu is currently visible.
    */
@@ -76,7 +56,7 @@ export type Props = {
   /**
    * Style of menu's inner content.
    */
-  contentStyle?: Animated.WithAnimatedValue<StyleProp<ViewStyle>>;
+  contentStyle?: StyleProp<ViewStyle>;
   style?: StyleProp<ViewStyle>;
   /**
    * Inner ScrollView prop
@@ -107,15 +87,14 @@ const SCREEN_INDENT = 8;
 const ANIMATION_DURATION = 250;
 // From the 'Standard easing' section of https://material.io/design/motion/speed.html#easing
 const EASING = Easing.bezier(0.4, 0, 0.2, 1);
-
 const WINDOW_LAYOUT = Dimensions.get('window');
 
 /**
  * Menus display a list of choices on temporary elevated surfaces. Their placement varies based on the element that opens them.
  *
  *  <div class="screenshots">
- *   <img class="small" src="screenshots/menu-1.png" />
- *   <img class="small" src="screenshots/menu-2.png" />
+ *   <img class="medium" src="screenshots/menu-1.png" />
+ *   <img class="medium" src="screenshots/menu-2.png" />
  * </div>
  *
  * ## Usage
@@ -155,20 +134,14 @@ const WINDOW_LAYOUT = Dimensions.get('window');
  *
  * export default MyComponent;
  * ```
- *
- * ### Note
- * When using `Menu` within a React Native's `Modal` component, you need to wrap all
- * `Modal` contents within a `Provider` in order for the menu to show. This
- * wrapping is not necessary if you use Paper's `Modal` instead.
  */
 export class MenuAn extends React.Component<Props, State> {
-  // @component ./MenuItemAn.tsx
+  // @component ./MenuItem.tsx
   static Item = MenuItemAn;
 
   static defaultProps = {
     statusBarHeight: APPROX_STATUSBAR_HEIGHT,
     overlayAccessibilityLabel: 'Close menu',
-    testID: 'menu',
   };
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
@@ -193,11 +166,6 @@ export class MenuAn extends React.Component<Props, State> {
     },
   };
 
-  componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
-  }
-
   componentDidUpdate(prevProps: Props) {
     if (prevProps.visible !== this.props.visible) {
       this.updateVisibility();
@@ -206,20 +174,12 @@ export class MenuAn extends React.Component<Props, State> {
 
   componentWillUnmount() {
     this.removeListeners();
-    this.keyboardDidShowListener?.remove();
-    this.keyboardDidHideListener?.remove();
   }
 
   private anchor?: View | null = null;
   private menu?: View | null = null;
-  private backHandlerSubscription: NativeEventSubscription | undefined;
-  private dimensionsSubscription: NativeEventSubscription | undefined;
-  private keyboardDidShowListener: EmitterSubscription | undefined;
-  private keyboardDidHideListener: EmitterSubscription | undefined;
-  private keyboardHeight: number = 0;
 
-  private isCoordinate = (anchor: any): anchor is { x: number; y: number } =>
-    !React.isValidElement(anchor) && typeof anchor?.x === 'number' && typeof anchor?.y === 'number';
+  private isAnchorCoord = () => !React.isValidElement(this.props.anchor);
 
   private measureMenuLayout = () =>
     new Promise<LayoutRectangle>((resolve) => {
@@ -233,7 +193,8 @@ export class MenuAn extends React.Component<Props, State> {
   private measureAnchorLayout = () =>
     new Promise<LayoutRectangle>((resolve) => {
       const { anchor } = this.props;
-      if (this.isCoordinate(anchor)) {
+      if (this.isAnchorCoord()) {
+        // @ts-ignore
         resolve({ x: anchor.x, y: anchor.y, width: 0, height: 0 });
         return;
       }
@@ -276,26 +237,28 @@ export class MenuAn extends React.Component<Props, State> {
 
   private handleDismiss = () => {
     if (this.props.visible) {
-      this.props.onDismiss?.();
+      this.props.onDismiss();
     }
     return true;
   };
 
   private handleKeypress = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
-      this.props.onDismiss?.();
+      this.props.onDismiss();
     }
   };
 
   private attachListeners = () => {
-    this.backHandlerSubscription = addEventListener(BackHandler, 'hardwareBackPress', this.handleDismiss);
-    this.dimensionsSubscription = addEventListener(Dimensions, 'change', this.handleDismiss);
+    BackHandler.addEventListener('hardwareBackPress', this.handleDismiss);
+    Dimensions.addEventListener('change', this.handleDismiss);
+
     this.isBrowser() && document.addEventListener('keyup', this.handleKeypress);
   };
 
   private removeListeners = () => {
-    this.backHandlerSubscription?.remove();
-    this.dimensionsSubscription?.remove();
+    BackHandler.removeEventListener('hardwareBackPress', this.handleDismiss);
+    Dimensions.removeEventListener('change', this.handleDismiss);
+
     this.isBrowser() && document.removeEventListener('keyup', this.handleKeypress);
   };
 
@@ -314,8 +277,8 @@ export class MenuAn extends React.Component<Props, State> {
       !windowLayout.height ||
       !menuLayout.width ||
       !menuLayout.height ||
-      (!anchorLayout.width && !this.isCoordinate(this.props.anchor)) ||
-      (!anchorLayout.height && !this.isCoordinate(this.props.anchor))
+      (!anchorLayout.width && !this.isAnchorCoord()) ||
+      (!anchorLayout.height && !this.isAnchorCoord())
     ) {
       requestAnimationFrame(this.show);
       return;
@@ -333,24 +296,21 @@ export class MenuAn extends React.Component<Props, State> {
           width: menuLayout.width,
           height: menuLayout.height,
         },
-        windowLayout: {
-          height: windowLayout.height - this.keyboardHeight,
-          width: windowLayout.width,
-        },
       }),
       () => {
         this.attachListeners();
 
+        const animation = { scale: 1.0 };
         Animated.parallel([
           Animated.timing(this.state.scaleAnimation, {
             toValue: { x: menuLayout.width, y: menuLayout.height },
-            duration: ANIMATION_DURATION,
+            duration: ANIMATION_DURATION * animation.scale,
             easing: EASING,
             useNativeDriver: true,
           }),
           Animated.timing(this.state.opacityAnimation, {
             toValue: 1,
-            duration: ANIMATION_DURATION,
+            duration: ANIMATION_DURATION * animation.scale,
             easing: EASING,
             useNativeDriver: true,
           }),
@@ -366,11 +326,12 @@ export class MenuAn extends React.Component<Props, State> {
   private hide = () => {
     this.removeListeners();
 
+    const animation = { scale: 1.0 };
     Animated.timing(this.state.opacityAnimation, {
       toValue: 0,
-      duration: ANIMATION_DURATION,
+      duration: ANIMATION_DURATION * animation.scale,
       easing: EASING,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start(({ finished }) => {
       if (finished) {
         this.setState({ menuLayout: { width: 0, height: 0 }, rendered: false });
@@ -380,35 +341,12 @@ export class MenuAn extends React.Component<Props, State> {
     });
   };
 
-  private keyboardDidShow = (e: RNKeyboardEvent) => {
-    const keyboardHeight = e.endCoordinates.height;
-    this.keyboardHeight = keyboardHeight;
-  };
-
-  private keyboardDidHide = () => {
-    this.keyboardHeight = 0;
-  };
-
   render() {
-    const {
-      visible,
-      anchor,
-      anchorPosition,
-      style,
-      children,
-      statusBarHeight,
-      onDismiss,
-      overlayAccessibilityLabel,
-      keyboardShouldPersistTaps,
-    } = this.props;
+    const { visible, anchor, contentStyle, style, children, theme, statusBarHeight, onDismiss, overlayAccessibilityLabel } = this.props;
 
-    const { rendered, menuLayout, anchorLayout, scaleAnimation, windowLayout } = this.state;
+    const { rendered, menuLayout, anchorLayout, opacityAnimation, scaleAnimation } = this.state;
 
     let { left, top } = this.state;
-
-    if (!this.isCoordinate(this.anchor) && anchorPosition === 'bottom') {
-      top += anchorLayout.height;
-    }
 
     // I don't know why but on Android measure function is wrong by 24
     const additionalVerticalValue = Platform.select({
@@ -416,20 +354,22 @@ export class MenuAn extends React.Component<Props, State> {
       default: 0,
     });
 
-    // const scaleTransforms = [
-    //   {
-    //     scaleX: scaleAnimation.x.interpolate({
-    //       inputRange: [0, menuLayout.width],
-    //       outputRange: [0, 1],
-    //     }),
-    //   },
-    //   {
-    //     scaleY: scaleAnimation.y.interpolate({
-    //       inputRange: [0, menuLayout.height],
-    //       outputRange: [0, 1],
-    //     }),
-    //   },
-    // ];
+    const scaleTransforms = [
+      {
+        scaleX: scaleAnimation.x.interpolate({
+          inputRange: [0, menuLayout.width],
+          outputRange: [0, 1],
+        }),
+      },
+      {
+        scaleY: scaleAnimation.y.interpolate({
+          inputRange: [0, menuLayout.height],
+          outputRange: [0, 1],
+        }),
+      },
+    ];
+
+    const windowLayout = Dimensions.get('window');
 
     // We need to translate menu while animating scale to imitate transform origin for scale animation
     const positionTransforms = [];
@@ -522,7 +462,7 @@ export class MenuAn extends React.Component<Props, State> {
         }),
       });
 
-      top += anchorLayout.height - (scrollableMenuHeight || menuLayout.height) - anchorLayout.height * 2;
+      top += anchorLayout.height - (scrollableMenuHeight || menuLayout.height);
 
       const bottom = top + (scrollableMenuHeight || menuLayout.height) + additionalVerticalValue;
 
@@ -535,17 +475,16 @@ export class MenuAn extends React.Component<Props, State> {
       }
     }
 
-    // const shadowMenuContainerStyle = {
-    //   opacity: opacityAnimation,
-    //   transform: scaleTransforms,
-    //   borderRadius: theme.roundness,
-    //   ...(!theme.isV3 && { elevation: 8 }),
-    //   ...(scrollableMenuHeight ? { height: scrollableMenuHeight } : {}),
-    // };
+    const shadowMenuContainerStyle = {
+      opacity: opacityAnimation,
+      transform: scaleTransforms,
+      borderRadius: 5,
+      ...(scrollableMenuHeight ? { height: scrollableMenuHeight } : {}),
+    };
 
     const positionStyle = {
-      top: this.isCoordinate(anchor) ? top : top + additionalVerticalValue,
-      ...(I18nManager.getConstants().isRTL ? { right: left } : { left }),
+      top: this.isAnchorCoord() ? top : top + additionalVerticalValue,
+      ...(I18nManager.isRTL ? { right: left } : { left }),
     };
 
     return (
@@ -555,7 +494,7 @@ export class MenuAn extends React.Component<Props, State> {
         }}
         collapsable={false}
       >
-        {this.isCoordinate(anchor) ? null : anchor}
+        {this.isAnchorCoord() ? null : anchor}
         {rendered ? (
           <Portal>
             <TouchableWithoutFeedback accessibilityLabel={overlayAccessibilityLabel} accessibilityRole="button" onPress={onDismiss}>
@@ -572,9 +511,9 @@ export class MenuAn extends React.Component<Props, State> {
               onAccessibilityEscape={onDismiss}
             >
               <Animated.View style={{ transform: positionTransforms }}>
-                {(scrollableMenuHeight && <ScrollView keyboardShouldPersistTaps={keyboardShouldPersistTaps}>{children}</ScrollView>) || (
-                  <React.Fragment>{children}</React.Fragment>
-                )}
+                <Surface style={[styles.shadowMenuContainer, shadowMenuContainerStyle, contentStyle] as StyleProp<ViewStyle>}>
+                  {(scrollableMenuHeight && <ScrollView>{children}</ScrollView>) || <React.Fragment>{children}</React.Fragment>}
+                </Surface>
               </Animated.View>
             </View>
           </Portal>
@@ -591,6 +530,7 @@ const styles = StyleSheet.create({
   shadowMenuContainer: {
     opacity: 0,
     paddingVertical: 8,
+    elevation: 8,
   },
 });
 

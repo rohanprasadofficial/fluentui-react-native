@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { ButtonV1 as Button, ButtonV1 } from '@fluentui/react-native';
 import {
@@ -38,21 +38,19 @@ const MenuDefault: React.FunctionComponent = () => {
   const _getVisible = (name: string) => !!visible[name];
   console.log(MenuAn);
   return (
-    <Stack style={stackStyle}>
-      <MenuAn
-        visible={_getVisible('menu2')}
-        onDismiss={_toggleMenu('menu2')}
-        anchor={<Button onClick={_toggleMenu('menu2')}>Menu with icons</Button>}
-      >
-        <MenuAn.Item
-          leadingIcon="undo"
-          onPress={() => {
-            console.log('Test');
-          }}
-          title="Undo"
-        />
-      </MenuAn>
-    </Stack>
+    <MenuAn
+      visible={_getVisible('menu2')}
+      onDismiss={_toggleMenu('menu2')}
+      anchor={<Button onClick={_toggleMenu('menu2')}>Menu with icons</Button>}
+    >
+      <MenuAn.Item
+        leadingIcon="undo"
+        onPress={() => {
+          console.log('Test');
+        }}
+        title="Undo"
+      />
+    </MenuAn>
   );
 };
 
