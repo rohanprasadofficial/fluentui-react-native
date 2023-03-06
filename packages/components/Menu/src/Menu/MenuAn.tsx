@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 
 import MenuItemAn from './MenuItemAn';
+import Surface from './Surface';
 import Portal from '../../../../experimental/Portal/src/PortalPP/Portal';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type $Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
@@ -88,52 +89,6 @@ const ANIMATION_DURATION = 250;
 const EASING = Easing.bezier(0.4, 0, 0.2, 1);
 const WINDOW_LAYOUT = Dimensions.get('window');
 
-/**
- * Menus display a list of choices on temporary elevated surfaces. Their placement varies based on the element that opens them.
- *
- *  <div class="screenshots">
- *   <img class="medium" src="screenshots/menu-1.png" />
- *   <img class="medium" src="screenshots/menu-2.png" />
- * </div>
- *
- * ## Usage
- * ```js
- * import * as React from 'react';
- * import { View } from 'react-native';
- * import { Button, Menu, Divider, Provider } from 'react-native-paper';
- *
- * const MyComponent = () => {
- *   const [visible, setVisible] = React.useState(false);
- *
- *   const openMenu = () => setVisible(true);
- *
- *   const closeMenu = () => setVisible(false);
- *
- *   return (
- *     <Provider>
- *       <View
- *         style={{
- *           paddingTop: 50,
- *           flexDirection: 'row',
- *           justifyContent: 'center',
- *         }}>
- *         <Menu
- *           visible={visible}
- *           onDismiss={closeMenu}
- *           anchor={<Button onPress={openMenu}>Show menu</Button>}>
- *           <Menu.Item onPress={() => {}} title="Item 1" />
- *           <Menu.Item onPress={() => {}} title="Item 2" />
- *           <Divider />
- *           <Menu.Item onPress={() => {}} title="Item 3" />
- *         </Menu>
- *       </View>
- *     </Provider>
- *   );
- * };
- *
- * export default MyComponent;
- * ```
- */
 export class MenuAn extends React.Component<Props, State> {
   // @component ./MenuItem.tsx
   static Item = MenuItemAn;
@@ -341,9 +296,9 @@ export class MenuAn extends React.Component<Props, State> {
   };
 
   render() {
-    const { visible, anchor, style, children, statusBarHeight, onDismiss, overlayAccessibilityLabel } = this.props;
+    const { visible, anchor, contentStyle, style, children, theme, statusBarHeight, onDismiss, overlayAccessibilityLabel } = this.props;
 
-    const { rendered, menuLayout, anchorLayout, scaleAnimation } = this.state;
+    const { rendered, menuLayout, anchorLayout, opacityAnimation, scaleAnimation } = this.state;
 
     let { left, top } = this.state;
 
@@ -352,6 +307,21 @@ export class MenuAn extends React.Component<Props, State> {
       android: statusBarHeight,
       default: 0,
     });
+
+    const scaleTransforms = [
+      {
+        scaleX: scaleAnimation.x.interpolate({
+          inputRange: [0, menuLayout.width],
+          outputRange: [0, 1],
+        }),
+      },
+      {
+        scaleY: scaleAnimation.y.interpolate({
+          inputRange: [0, menuLayout.height],
+          outputRange: [0, 1],
+        }),
+      },
+    ];
 
     const windowLayout = Dimensions.get('window');
 
@@ -459,6 +429,13 @@ export class MenuAn extends React.Component<Props, State> {
       }
     }
 
+    const shadowMenuContainerStyle = {
+      opacity: opacityAnimation,
+      transform: scaleTransforms,
+      borderRadius: 5,
+      ...(scrollableMenuHeight ? { height: scrollableMenuHeight } : {}),
+    };
+
     const positionStyle = {
       top: this.isAnchorCoord() ? top : top + additionalVerticalValue,
       ...(I18nManager.isRTL ? { right: left } : { left }),
@@ -488,7 +465,9 @@ export class MenuAn extends React.Component<Props, State> {
               onAccessibilityEscape={onDismiss}
             >
               <Animated.View style={{ transform: positionTransforms }}>
-                <View>{(scrollableMenuHeight && <ScrollView>{children}</ScrollView>) || <React.Fragment>{children}</React.Fragment>}</View>
+                <Surface style={[styles.shadowMenuContainer, shadowMenuContainerStyle, contentStyle] as StyleProp<ViewStyle>}>
+                  {(scrollableMenuHeight && <ScrollView>{children}</ScrollView>) || <React.Fragment>{children}</React.Fragment>}
+                </Surface>
               </Animated.View>
             </View>
           </Portal>
