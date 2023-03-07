@@ -1,6 +1,17 @@
 import * as React from 'react';
-import type { StyleProp, LayoutRectangle, ViewStyle } from 'react-native';
-import { Platform, StyleSheet, Animated, Dimensions, Easing, I18nManager, TouchableWithoutFeedback, View, ScrollView } from 'react-native';
+import type { StyleProp, LayoutRectangle, ViewStyle, ScrollViewProps } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Animated,
+  BackHandler,
+  Dimensions,
+  Easing,
+  I18nManager,
+  TouchableWithoutFeedback,
+  View,
+  ScrollView,
+} from 'react-native';
 
 import Surface from './Surface';
 import Portal from '../../../../experimental/Portal/src/PortalPP/Portal';
@@ -15,7 +26,7 @@ type Props = {
   /**
    * The anchor to open the menu from. In most cases, it will be a button that opens the menu.
    */
-  anchor: React.ReactNode | { x: number; y: number };
+  anchor: React.ReactNode;
 
   /**
    * Callback called when Menu is dismissed. The `visible` prop needs to be updated when this is called.
@@ -25,7 +36,7 @@ type Props = {
   /**
    * Content of the `Menu`.
    */
-  children: React.ReactNode;
+  children: React.ReactNode | { x: number; y: number };
   /**
    * Style of menu's inner content.
    */
@@ -86,6 +97,10 @@ export class MenuAn extends React.Component<Props, State> {
     }
   }
 
+  componentWillUnmount() {
+    this.removeListeners();
+  }
+
   private anchor?: View | null = null;
   private menu?: View | null = null;
 
@@ -135,6 +150,15 @@ export class MenuAn extends React.Component<Props, State> {
     return true;
   };
 
+  private attachListeners = () => {
+    BackHandler.addEventListener('hardwareBackPress', this.handleDismiss);
+    Dimensions.addEventListener('change', this.handleDismiss);
+  };
+
+  private removeListeners = () => {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleDismiss);
+  };
+
   private show = async () => {
     const windowLayout = Dimensions.get('window');
     const [menuLayout, anchorLayout] = await Promise.all([this.measureMenuLayout(), this.measureAnchorLayout()]);
@@ -171,6 +195,8 @@ export class MenuAn extends React.Component<Props, State> {
         },
       }),
       () => {
+        this.attachListeners();
+
         const animation = { scale: 1.0 };
         Animated.parallel([
           Animated.timing(this.state.scaleAnimation, {
@@ -191,6 +217,8 @@ export class MenuAn extends React.Component<Props, State> {
   };
 
   private hide = () => {
+    this.removeListeners();
+
     const animation = { scale: 1.0 };
     Animated.timing(this.state.opacityAnimation, {
       toValue: 0,

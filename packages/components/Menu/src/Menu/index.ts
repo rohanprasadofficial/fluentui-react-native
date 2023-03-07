@@ -4,3 +4,4 @@ export type { MenuProps, MenuState } from './Menu.types';
 export { useMenu } from './useMenu';
 export { useMenuContextValue } from './useMenuContextValue';
 export { MenuAn } from './MenuAn';
+export { MenuAn2 } from './MenuAn2';

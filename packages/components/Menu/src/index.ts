@@ -27,6 +27,7 @@ export {
 } from './MenuItem';
 
 export { MenuAn } from './Menu';
+export { MenuAn2 } from './Menu/MenuAn2';
 
 export {
   MenuItemCheckbox,

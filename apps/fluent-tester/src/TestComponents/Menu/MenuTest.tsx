@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import { ButtonV1 as Button } from '@fluentui/react-native';
 import {
-  Menu,
   MenuItem,
   MenuItemCheckbox,
   MenuItemRadio,
@@ -11,12 +10,17 @@ import {
   MenuPopover,
   MenuList,
   MenuDivider,
-  MenuAn,
+  MenuAn as Menu,
+  MenuAn2,
 } from '@fluentui-react-native/menu';
 import { Stack } from '@fluentui-react-native/stack';
 import { TextV1 as Text } from '@fluentui-react-native/text';
 
 import { E2EMenuTest } from './E2EMenuTest';
+import { MenuIcons } from './MenuIcons';
+import { MenuTriggerChildRef } from './MenuRefs';
+import { MenuScrollView } from './MenuScrollView';
+import { MenuTriggerHoverCallback, MenuTriggerOnClickCallback } from './MenuTriggerCallbacks';
 import { MENU_TESTPAGE } from '../../../../E2E/src/Menu/consts';
 import { stackStyle } from '../Common/styles';
 import { Test } from '../Test';
@@ -27,25 +31,23 @@ type MenuVisibility = {
 };
 
 const MenuDefault: React.FunctionComponent = () => {
-  const [visible, setVisible] = React.useState<MenuVisibility>({});
-  const _toggleMenu = (name: string) => () => setVisible({ ...visible, [name]: !visible[name] });
-
-  const _getVisible = (name: string) => !!visible[name];
-  console.log(MenuAn);
   return (
-    <MenuAn
-      visible={_getVisible('menu2')}
-      onDismiss={_toggleMenu('menu2')}
-      anchor={<Button onClick={_toggleMenu('menu2')}>Menu with icons</Button>}
-    >
-      <MenuAn.Item
-        leadingIcon="undo"
-        onPress={() => {
-          console.log('Test');
-        }}
-        title="Undo"
-      />
-    </MenuAn>
+    <MenuAn2>
+      <MenuTrigger>
+        <Button>Hooks Teexsting</Button>
+      </MenuTrigger>
+
+      <MenuPopover>
+        <MenuList>
+          <MenuItem>A plain MenuItem</MenuItem>
+          <MenuItemCheckbox name="itemTwo">A MenuItem with checkmark</MenuItemCheckbox>
+          <MenuItemCheckbox disabled name="itemThree">
+            A disabled MenuItem with checkmark
+          </MenuItemCheckbox>
+          <MenuItemCheckbox name="itemFour">A MenuItem with checkmark</MenuItemCheckbox>
+        </MenuList>
+      </MenuPopover>
+    </MenuAn2>
   );
 };
 
@@ -53,19 +55,22 @@ const defaultCheckedTestCase = ['itemOne'];
 const checkedTestCase = ['itemTwo'];
 
 const MenuCheckmarks: React.FunctionComponent = () => {
+  const [visible, setVisible] = React.useState<MenuVisibility>({});
+  const _toggleMenu = (name: string) => () => setVisible({ ...visible, [name]: !visible[name] });
+
+  const _getVisible = (name: string) => !!visible[name];
   return (
     <Stack style={stackStyle}>
-      <Menu defaultChecked={defaultCheckedTestCase}>
-        <MenuTrigger>
-          <Button>All checkmark items</Button>
-        </MenuTrigger>
-        <MenuPopover>
-          <MenuList>
-            <MenuItemCheckbox name="itemOne">A MenuItem with checkmark</MenuItemCheckbox>
-            <MenuDivider />
-            <MenuItemCheckbox name="itemTwo">Another MenuItem with checkmark</MenuItemCheckbox>
-          </MenuList>
-        </MenuPopover>
+      <Menu
+        visible={_getVisible('menu2')}
+        onDismiss={_toggleMenu('menu2')}
+        anchor={<Button onClick={_toggleMenu('menu2')}>Menu with icons</Button>}
+      >
+        <MenuList>
+          <MenuItemCheckbox name="itemOne">A MenuItem with checkmark</MenuItemCheckbox>
+          <MenuDivider />
+          <MenuItemCheckbox name="itemTwo">Another MenuItem with checkmark</MenuItemCheckbox>
+        </MenuList>
       </Menu>
       <Menu hasCheckmarks checked={checkedTestCase}>
         <MenuTrigger>
@@ -258,6 +263,51 @@ const menuSections: TestSection[] = [
     name: 'Menu Default',
     testID: MENU_TESTPAGE,
     component: MenuDefault,
+  },
+  {
+    name: 'Menu Checkmarks',
+    component: MenuCheckmarks,
+  },
+  {
+    name: 'Menu Radioitem',
+    component: MenuRadioItem,
+  },
+  {
+    name: 'Menu open on hover',
+    component: MenuOpenOnHover,
+  },
+  {
+    name: 'Menu open controlled',
+    component: MenuControlledOpen,
+  },
+
+  {
+    name: 'Menu with icons',
+    component: MenuIcons,
+  },
+  {
+    name: 'Menu Submenu',
+    component: MenuSubMenu,
+  },
+  {
+    name: 'Menu with ScrollView',
+    component: MenuScrollView,
+  },
+  {
+    name: 'Menu Trigger onClick Override',
+    component: MenuTriggerOnClickCallback,
+  },
+  {
+    name: 'Menu Trigger Hover Override',
+    component: MenuTriggerHoverCallback,
+  },
+  {
+    name: 'Menu Customized',
+    component: MenuCustomized,
+  },
+  {
+    name: 'Menu Refs',
+    component: MenuTriggerChildRef,
   },
 ];
 
