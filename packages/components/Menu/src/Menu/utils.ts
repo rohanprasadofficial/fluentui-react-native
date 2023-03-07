@@ -10,14 +10,14 @@ const getTitleColor = ({ disabled }: any) => {
     return getDisabledColor();
   }
 
-  return 'red';
+  return 'white';
 };
 
 export const getMenuItemColor = ({ disabled }: any) => {
   return {
     titleColor: getTitleColor({ disabled }),
-    iconColor: 'red',
-    underlayColor: 'red',
+    iconColor: 'white',
+    underlayColor: 'white',
   };
 };
 

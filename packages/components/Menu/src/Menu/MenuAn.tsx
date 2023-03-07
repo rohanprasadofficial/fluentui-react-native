@@ -1,25 +1,12 @@
 import * as React from 'react';
-import type { StyleProp, LayoutRectangle, ViewStyle, ScrollViewProps } from 'react-native';
-import {
-  Platform,
-  StyleSheet,
-  Animated,
-  BackHandler,
-  Dimensions,
-  Easing,
-  I18nManager,
-  TouchableWithoutFeedback,
-  View,
-  ScrollView,
-  findNodeHandle,
-} from 'react-native';
+import type { StyleProp, LayoutRectangle, ViewStyle } from 'react-native';
+import { Platform, StyleSheet, Animated, Dimensions, Easing, I18nManager, TouchableWithoutFeedback, View, ScrollView } from 'react-native';
 
-import MenuItemAn from './MenuItemAn';
 import Surface from './Surface';
 import Portal from '../../../../experimental/Portal/src/PortalPP/Portal';
+import { MenuItem } from '../MenuItem';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type $Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
-const APPROX_STATUSBAR_HEIGHT = 0;
 type Props = {
   /**
    * Whether the Menu is currently visible.
@@ -29,26 +16,12 @@ type Props = {
    * The anchor to open the menu from. In most cases, it will be a button that opens the menu.
    */
   anchor: React.ReactNode | { x: number; y: number };
-  /**
-   * Whether the menu should open at the top of the anchor or at its bottom.
-   * Applied only when anchor is a node, not an x/y position.
-   */
-  anchorPosition?: 'top' | 'bottom';
-  /**
-   * Extra margin to add at the top of the menu to account for translucent status bar on Android.
-   * If you are using Expo, we assume translucent status bar and set a height for status bar automatically.
-   * Pass `0` or a custom value to and customize it.
-   * This is automatically handled on iOS.
-   */
-  statusBarHeight?: number;
+
   /**
    * Callback called when Menu is dismissed. The `visible` prop needs to be updated when this is called.
    */
   onDismiss?: () => void;
-  /**
-   * Accessibility label for the overlay. This is read by the screen reader when the user taps outside the menu.
-   */
-  overlayAccessibilityLabel?: string;
+
   /**
    * Content of the `Menu`.
    */
@@ -58,14 +31,6 @@ type Props = {
    */
   contentStyle?: StyleProp<ViewStyle>;
   style?: StyleProp<ViewStyle>;
-  /**
-   * Inner ScrollView prop
-   */
-  keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps'];
-  /**
-   * testID to be used on tests.
-   */
-  testID?: string;
 };
 
 type Layout = $Omit<$Omit<LayoutRectangle, 'x'>, 'y'>;
@@ -91,12 +56,7 @@ const WINDOW_LAYOUT = Dimensions.get('window');
 
 export class MenuAn extends React.Component<Props, State> {
   // @component ./MenuItem.tsx
-  static Item = MenuItemAn;
-
-  static defaultProps = {
-    statusBarHeight: APPROX_STATUSBAR_HEIGHT,
-    overlayAccessibilityLabel: 'Close menu',
-  };
+  static Item = MenuItem;
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     if (nextProps.visible && !prevState.rendered) {
@@ -124,10 +84,6 @@ export class MenuAn extends React.Component<Props, State> {
     if (prevProps.visible !== this.props.visible) {
       this.updateVisibility();
     }
-  }
-
-  componentWillUnmount() {
-    this.removeListeners();
   }
 
   private anchor?: View | null = null;
@@ -172,48 +128,11 @@ export class MenuAn extends React.Component<Props, State> {
     }
   };
 
-  private isBrowser = () => Platform.OS === 'web' && 'document' in global;
-
-  private focusFirstDOMNode = (el: View | null | undefined) => {
-    if (el && this.isBrowser()) {
-      // When in the browser, we want to focus the first focusable item on toggle
-      // For example, when menu is shown, focus the first item in the menu
-      // And when menu is dismissed, send focus back to the button to resume tabbing
-      const node: any = findNodeHandle(el);
-      const focusableNode = node.querySelector(
-        // This is a rough list of selectors that can be focused
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-      );
-
-      focusableNode?.focus();
-    }
-  };
-
   private handleDismiss = () => {
     if (this.props.visible) {
       this.props.onDismiss();
     }
     return true;
-  };
-
-  private handleKeypress = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      this.props.onDismiss();
-    }
-  };
-
-  private attachListeners = () => {
-    BackHandler.addEventListener('hardwareBackPress', this.handleDismiss);
-    Dimensions.addEventListener('change', this.handleDismiss);
-
-    this.isBrowser() && document.addEventListener('keyup', this.handleKeypress);
-  };
-
-  private removeListeners = () => {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleDismiss);
-    Dimensions.removeEventListener('change', this.handleDismiss);
-
-    this.isBrowser() && document.removeEventListener('keyup', this.handleKeypress);
   };
 
   private show = async () => {
@@ -252,8 +171,6 @@ export class MenuAn extends React.Component<Props, State> {
         },
       }),
       () => {
-        this.attachListeners();
-
         const animation = { scale: 1.0 };
         Animated.parallel([
           Animated.timing(this.state.scaleAnimation, {
@@ -268,18 +185,12 @@ export class MenuAn extends React.Component<Props, State> {
             easing: EASING,
             useNativeDriver: true,
           }),
-        ]).start(({ finished }) => {
-          if (finished) {
-            this.focusFirstDOMNode(this.menu);
-          }
-        });
+        ]).start();
       },
     );
   };
 
   private hide = () => {
-    this.removeListeners();
-
     const animation = { scale: 1.0 };
     Animated.timing(this.state.opacityAnimation, {
       toValue: 0,
@@ -290,13 +201,12 @@ export class MenuAn extends React.Component<Props, State> {
       if (finished) {
         this.setState({ menuLayout: { width: 0, height: 0 }, rendered: false });
         this.state.scaleAnimation.setValue({ x: 0, y: 0 });
-        this.focusFirstDOMNode(this.anchor);
       }
     });
   };
 
   render() {
-    const { visible, anchor, contentStyle, style, children, theme, statusBarHeight, onDismiss, overlayAccessibilityLabel } = this.props;
+    const { visible, anchor, contentStyle, style, children, onDismiss } = this.props;
 
     const { rendered, menuLayout, anchorLayout, opacityAnimation, scaleAnimation } = this.state;
 
@@ -304,7 +214,7 @@ export class MenuAn extends React.Component<Props, State> {
 
     // I don't know why but on Android measure function is wrong by 24
     const additionalVerticalValue = Platform.select({
-      android: statusBarHeight,
+      android: 0,
       default: 0,
     });
 
@@ -432,7 +342,6 @@ export class MenuAn extends React.Component<Props, State> {
     const shadowMenuContainerStyle = {
       opacity: opacityAnimation,
       transform: scaleTransforms,
-      borderRadius: 5,
       ...(scrollableMenuHeight ? { height: scrollableMenuHeight } : {}),
     };
 
@@ -451,7 +360,7 @@ export class MenuAn extends React.Component<Props, State> {
         {this.isAnchorCoord() ? null : anchor}
         {rendered ? (
           <Portal>
-            <TouchableWithoutFeedback accessibilityLabel={overlayAccessibilityLabel} accessibilityRole="button" onPress={onDismiss}>
+            <TouchableWithoutFeedback accessibilityLabel={'overlayAccessibilityLabel'} accessibilityRole="button" onPress={onDismiss}>
               <View style={StyleSheet.absoluteFill} />
             </TouchableWithoutFeedback>
             <View
@@ -483,7 +392,6 @@ const styles = StyleSheet.create({
   },
   shadowMenuContainer: {
     opacity: 0,
-    paddingVertical: 8,
     elevation: 8,
   },
 });
