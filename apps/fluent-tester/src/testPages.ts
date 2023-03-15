@@ -1,6 +1,7 @@
 import type { TestDescription } from './TestComponents';
 import { ActivityIndicatorTest } from './TestComponents/ActivityIndicator';
 import { AvatarTest, NativeAvatarTest } from './TestComponents/Avatar';
+import { AvatarStackTest } from './TestComponents/AvatarStack';
 import { BadgeTest } from './TestComponents/Badge';
 import { ButtonTest } from './TestComponents/Button';
 import { CalloutTest } from './TestComponents/Callout';
@@ -61,6 +62,12 @@ export const tests: TestDescription[] = [
     component: NativeAvatarTest,
     testPageButton: Constants.HOMEPAGE_NATIVE_AVATAR_BUTTON,
     platforms: ['ios', 'macos'],
+  },
+  {
+    name: 'AvatarStack',
+    component: AvatarStackTest,
+    testPageButton: Constants.HOMEPAGE_DIVIDER_BUTTON,
+    platforms: ['android'],
   },
   {
     name: 'Badge',
