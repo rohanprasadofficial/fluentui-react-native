@@ -59,6 +59,34 @@ export const DrawerDefault: React.FunctionComponent = () => {
                 Validate Children Clicked on Drawer
               </Button>
             </Stack>
+            <Stack gap={10}>
+              <Text variant="body1">This is the content of the drawer.</Text>
+              <Button onClick={handleDrawerClose}>Close Drawer</Button>
+              <Button appearance="outline" onClick={handleChildrenClick}>
+                Validate Children Clicked on Drawer
+              </Button>
+            </Stack>
+            <Stack gap={10}>
+              <Text variant="body1">This is the content of the drawer.</Text>
+              <Button onClick={handleDrawerClose}>Close Drawer</Button>
+              <Button appearance="outline" onClick={handleChildrenClick}>
+                Validate Children Clicked on Drawer
+              </Button>
+            </Stack>
+            <Stack gap={10}>
+              <Text variant="body1">This is the content of the drawer.</Text>
+              <Button onClick={handleDrawerClose}>Close Drawer</Button>
+              <Button appearance="outline" onClick={handleChildrenClick}>
+                Validate Children Clicked on Drawer
+              </Button>
+            </Stack>
+            <Stack gap={10}>
+              <Text variant="body1">This is the content of the drawer.</Text>
+              <Button onClick={handleDrawerClose}>Close Drawer</Button>
+              <Button appearance="outline" onClick={handleChildrenClick}>
+                Validate Children Clicked on Drawer
+              </Button>
+            </Stack>
           </View>
         </Drawer>
       </View>
