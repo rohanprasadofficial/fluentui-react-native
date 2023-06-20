@@ -1,8 +1,99 @@
 # Change Log - @fluentui-react-native/radio-group
 
-This log was last generated on Tue, 16 May 2023 20:17:41 GMT and should not be manually modified.
+This log was last generated on Mon, 19 Jun 2023 18:37:35 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.18.3
+
+Mon, 19 Jun 2023 18:37:35 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/focus-zone to v0.12.3
+- Bump @fluentui-react-native/interactive-hooks to v0.24.2
+- Bump @fluentui-react-native/pressable to v0.10.3
+- Bump @fluentui-react-native/text to v0.21.2
+
+## 0.18.2
+
+Sat, 17 Jun 2023 00:00:18 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/focus-zone to v0.12.2
+- Bump @fluentui-react-native/interactive-hooks to v0.24.1
+- Bump @fluentui-react-native/pressable to v0.10.2
+- Bump @fluentui-react-native/text to v0.21.1
+
+## 0.18.1
+
+Wed, 14 Jun 2023 12:05:51 GMT
+
+### Patches
+
+- Declare `"sideEffects": false` to help improve tree shaking (4123478+tido64@users.noreply.github.com)
+
+## 0.18.0
+
+Mon, 12 Jun 2023 17:46:43 GMT
+
+### Minor changes
+
+- Changes for treeshake to work (ayushsinghs@yahoo.in)
+- Bump @uifabricshared/foundation-compose to v1.14.1
+- Bump @fluentui-react-native/focus-zone to v0.12.1
+- Bump @fluentui-react-native/framework to v0.11.0
+- Bump @fluentui-react-native/interactive-hooks to v0.24.0
+- Bump @fluentui-react-native/pressable to v0.10.1
+- Bump @fluentui-react-native/text to v0.21.0
+- Bump @fluentui-react-native/use-styling to v0.11.0
+- Bump @uifabricshared/foundation-composable to v0.12.1
+- Bump @uifabricshared/foundation-settings to v0.13.1
+
+## 0.17.1
+
+Fri, 09 Jun 2023 15:29:07 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/text to v0.20.1
+
+## 0.17.0
+
+Mon, 05 Jun 2023 19:26:24 GMT
+
+### Minor changes
+
+- Upgrade to React Native 0.71 (sanajmi@microsoft.com)
+- Bump @uifabricshared/foundation-compose to v1.14.0
+- Bump @fluentui-react-native/adapters to v0.11.0
+- Bump @fluentui-react-native/component-cache to v1.5.0
+- Bump @fluentui-react-native/focus-zone to v0.12.0
+- Bump @fluentui-react-native/framework to v0.10.0
+- Bump @fluentui-react-native/interactive-hooks to v0.23.0
+- Bump @fluentui-react-native/pressable to v0.10.0
+- Bump @fluentui-react-native/text to v0.20.0
+- Bump @fluentui-react-native/theme-tokens to v0.25.0
+- Bump @fluentui-react-native/tokens to v0.21.0
+- Bump @fluentui-react-native/use-styling to v0.10.0
+- Bump @uifabricshared/foundation-composable to v0.12.0
+- Bump @uifabricshared/foundation-settings to v0.13.0
+
+## 0.16.48
+
+Tue, 30 May 2023 20:34:15 GMT
+
+### Patches
+
+- Bump @uifabricshared/foundation-compose to v1.13.10
+- Bump @fluentui-react-native/focus-zone to v0.11.43
+- Bump @fluentui-react-native/framework to v0.9.10
+- Bump @fluentui-react-native/interactive-hooks to v0.22.31
+- Bump @fluentui-react-native/pressable to v0.9.70
+- Bump @fluentui-react-native/text to v0.19.33
+- Bump @fluentui-react-native/theme-tokens to v0.24.7
+- Bump @fluentui-react-native/tokens to v0.20.16
 
 ## 0.16.47
 

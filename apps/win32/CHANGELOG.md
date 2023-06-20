@@ -1,8 +1,115 @@
 # Change Log - @fluentui-react-native/tester-win32
 
-This log was last generated on Fri, 19 May 2023 04:14:45 GMT and should not be manually modified.
+This log was last generated on Mon, 19 Jun 2023 18:37:35 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.34.6
+
+Mon, 19 Jun 2023 18:37:35 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/tester to v0.150.2
+
+## 0.34.5
+
+Sat, 17 Jun 2023 00:00:18 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/tester to v0.150.1
+
+## 0.34.4
+
+Fri, 16 Jun 2023 21:10:32 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/tester to v0.150.0
+
+## 0.34.3
+
+Thu, 15 Jun 2023 20:51:40 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/tester to v0.149.3
+
+## 0.34.2
+
+Thu, 15 Jun 2023 19:51:13 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/tester to v0.149.2
+
+## 0.34.1
+
+Wed, 14 Jun 2023 12:05:51 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/tester to v0.149.1
+
+## 0.34.0
+
+Mon, 12 Jun 2023 17:46:44 GMT
+
+### Minor changes
+
+- Make win32 use commonjs (ayushsinghs@yahoo.in)
+- Bump @fluentui-react-native/tester to v0.149.0
+
+## 0.33.4
+
+Fri, 09 Jun 2023 21:35:04 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/tester to v0.148.2
+
+## 0.33.3
+
+Fri, 09 Jun 2023 15:29:07 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/tester to v0.148.1
+
+## 0.33.2
+
+Fri, 09 Jun 2023 05:47:08 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/tester to v0.148.0
+
+## 0.33.1
+
+Fri, 09 Jun 2023 04:19:43 GMT
+
+### Patches
+
+- Bump version of win32 being used (30809111+acoates-ms@users.noreply.github.com)
+- Bump @fluentui-react-native/tester to v0.147.1
+
+## 0.33.0
+
+Mon, 05 Jun 2023 19:26:24 GMT
+
+### Minor changes
+
+- Upgrade to React Native 0.71 (sanajmi@microsoft.com)
+- Bump @fluentui-react-native/tester to v0.147.0
+
+## 0.32.88
+
+Tue, 30 May 2023 20:34:15 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/tester to v0.146.1
 
 ## 0.32.87
 

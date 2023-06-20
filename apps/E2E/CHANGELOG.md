@@ -1,8 +1,58 @@
 # Change Log - @fluentui-react-native/e2e-testing
 
-This log was last generated on Fri, 19 May 2023 04:14:45 GMT and should not be manually modified.
+This log was last generated on Mon, 19 Jun 2023 18:37:35 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.27.2
+
+Mon, 19 Jun 2023 18:37:35 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/focus-zone to v0.12.3
+
+## 1.27.1
+
+Sat, 17 Jun 2023 00:00:18 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/focus-zone to v0.12.2
+
+## 1.27.0
+
+Mon, 12 Jun 2023 17:46:42 GMT
+
+### Minor changes
+
+- Fix e2e, retain tree shaking (ayushsinghs@yahoo.in)
+- Bump @fluentui-react-native/focus-zone to v0.12.1
+
+## 1.26.0
+
+Fri, 09 Jun 2023 05:47:08 GMT
+
+### Minor changes
+
+- Fix test (ayushsinghs@yahoo.in)
+
+## 1.25.0
+
+Mon, 05 Jun 2023 19:26:22 GMT
+
+### Minor changes
+
+- Upgrade to React Native 0.71 (sanajmi@microsoft.com)
+- Bump @fluentui-react-native/focus-zone to v0.12.0
+
+## 1.24.1
+
+Tue, 30 May 2023 20:34:15 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/focus-zone to v0.11.43
 
 ## 1.24.0
 

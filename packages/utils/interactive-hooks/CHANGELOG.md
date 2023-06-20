@@ -1,8 +1,57 @@
 # Change Log - @fluentui-react-native/interactive-hooks
 
-This log was last generated on Wed, 03 May 2023 07:08:52 GMT and should not be manually modified.
+This log was last generated on Mon, 19 Jun 2023 18:37:35 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.24.2
+
+Mon, 19 Jun 2023 18:37:35 GMT
+
+### Patches
+
+- [useKeyEvent] Make event parameter non optional (saadnajmi2@gmail.com)
+
+## 0.24.1
+
+Sat, 17 Jun 2023 00:00:18 GMT
+
+### Patches
+
+- useOnPressWihFocus doesn't take focus on macOS (sanajmi@microsoft.com)
+
+## 0.24.0
+
+Mon, 12 Jun 2023 17:46:43 GMT
+
+### Minor changes
+
+- Changes for treeshake to work (ayushsinghs@yahoo.in)
+- Bump @fluentui-react-native/framework to v0.11.0
+- Bump @fluentui-react-native/memo-cache to v1.3.0
+
+## 0.23.0
+
+Mon, 05 Jun 2023 19:26:23 GMT
+
+### Minor changes
+
+- Upgrade to React Native 0.71 (sanajmi@microsoft.com)
+- Bump @fluentui-react-native/adapters to v0.11.0
+- Bump @fluentui-react-native/framework to v0.10.0
+- Bump @fluentui-react-native/memo-cache to v1.2.0
+
+### Patches
+
+- Execute focus before calling callback (ruaraki@microsoft.com)
+
+## 0.22.31
+
+Tue, 30 May 2023 20:34:15 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/framework to v0.9.10
 
 ## 0.22.30
 

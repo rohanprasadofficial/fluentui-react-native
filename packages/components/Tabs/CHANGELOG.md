@@ -1,8 +1,84 @@
 # Change Log - @fluentui-react-native/tabs
 
-This log was last generated on Wed, 03 May 2023 07:08:51 GMT and should not be manually modified.
+This log was last generated on Mon, 19 Jun 2023 18:37:35 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.13.2
+
+Mon, 19 Jun 2023 18:37:35 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/focus-zone to v0.12.3
+- Bump @fluentui-react-native/icon to v0.19.2
+- Bump @fluentui-react-native/interactive-hooks to v0.24.2
+- Bump @fluentui-react-native/text to v0.21.2
+
+## 0.13.1
+
+Sat, 17 Jun 2023 00:00:18 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/focus-zone to v0.12.2
+- Bump @fluentui-react-native/icon to v0.19.1
+- Bump @fluentui-react-native/interactive-hooks to v0.24.1
+- Bump @fluentui-react-native/text to v0.21.1
+
+## 0.13.0
+
+Mon, 12 Jun 2023 17:46:44 GMT
+
+### Minor changes
+
+- Add missing constant (ayushsinghs@yahoo.in)
+- Bump @fluentui-react-native/focus-zone to v0.12.1
+- Bump @fluentui-react-native/icon to v0.19.0
+- Bump @fluentui-react-native/interactive-hooks to v0.24.0
+- Bump @fluentui-react-native/text to v0.21.0
+- Bump @uifabricshared/foundation-composable to v0.12.1
+- Bump @uifabricshared/foundation-compose to v1.14.1
+- Bump @uifabricshared/foundation-settings to v0.13.1
+
+## 0.12.1
+
+Fri, 09 Jun 2023 15:29:07 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/icon to v0.18.1
+- Bump @fluentui-react-native/text to v0.20.1
+
+## 0.12.0
+
+Mon, 05 Jun 2023 19:26:24 GMT
+
+### Minor changes
+
+- Upgrade to React Native 0.71 (sanajmi@microsoft.com)
+- Bump @fluentui-react-native/adapters to v0.11.0
+- Bump @fluentui-react-native/focus-zone to v0.12.0
+- Bump @fluentui-react-native/icon to v0.18.0
+- Bump @fluentui-react-native/interactive-hooks to v0.23.0
+- Bump @fluentui-react-native/text to v0.20.0
+- Bump @fluentui-react-native/tokens to v0.21.0
+- Bump @uifabricshared/foundation-composable to v0.12.0
+- Bump @uifabricshared/foundation-compose to v1.14.0
+- Bump @uifabricshared/foundation-settings to v0.13.0
+
+## 0.11.47
+
+Tue, 30 May 2023 20:34:15 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/focus-zone to v0.11.43
+- Bump @fluentui-react-native/icon to v0.17.27
+- Bump @fluentui-react-native/interactive-hooks to v0.22.31
+- Bump @fluentui-react-native/text to v0.19.33
+- Bump @fluentui-react-native/tokens to v0.20.16
+- Bump @uifabricshared/foundation-compose to v1.13.10
 
 ## 0.11.46
 

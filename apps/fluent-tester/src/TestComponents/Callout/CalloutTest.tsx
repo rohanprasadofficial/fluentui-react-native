@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { ScreenRect } from 'react-native';
+import type { KeyboardMetrics } from 'react-native';
 import { Text, View, Switch, ScrollView } from 'react-native';
 
 import { Button, Callout, Separator, Pressable, StealthButton } from '@fluentui/react-native';
@@ -19,7 +19,7 @@ const StandardCallout: React.FunctionComponent = () => {
   const [calloutHovered, setCalloutHovered] = React.useState(false);
 
   const [shouldSetInitialFocus, setShouldSetInitialFocus] = React.useState(true);
-  const onInitialFocusChange = React.useCallback((value) => setShouldSetInitialFocus(value), []);
+  const onInitialFocusChange = React.useCallback((value: boolean) => setShouldSetInitialFocus(value), []);
 
   const [customRestoreFocus, setCustomRestoreFocus] = React.useState(false);
   const onRestoreFocusChange = React.useCallback((value) => setCustomRestoreFocus(value), []);
@@ -380,7 +380,7 @@ const CustomCallout: React.FunctionComponent = () => {
     setShowCustomizedCallout(false);
   }, [setIsCustomizedCalloutVisible, setShowCustomizedCallout]);
 
-  const myRect: ScreenRect = { screenX: 10, screenY: 10, width: 100, height: 100 };
+  const myRect: KeyboardMetrics = { screenX: 10, screenY: 10, width: 100, height: 100 };
 
   return (
     <View>

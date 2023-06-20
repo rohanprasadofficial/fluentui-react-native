@@ -1,5 +1,6 @@
 import type * as React from 'react';
-import type { ScreenRect, ViewStyle } from 'react-native';
+// SAAD - Looks like ScreenRect got renamed.
+import type { KeyboardMetrics, ViewStyle } from 'react-native';
 
 import type { IViewProps } from '@fluentui-react-native/adapters';
 import type { IFocusable } from '@fluentui-react-native/interactive-hooks';
@@ -50,7 +51,7 @@ export interface ICalloutTokens extends IBackgroundColorTokens, CalloutBorderTok
    * AnchorRect arbitrary anchor rectangle; coordinate system is in DIPs, relative
    * to the React surface origin.
    */
-  anchorRect?: ScreenRect;
+  anchorRect?: KeyboardMetrics;
 
   /**
    * Width of the beak on the Callout indicating its anchor.
@@ -198,8 +199,9 @@ export interface ICalloutProps extends IViewProps, ICalloutTokens {
   onShow?: () => void;
 
   /**
-   * @platform win32
-   * If true then the callout will attempt to focus the first focusable element that it contains.
+   * Determines whether the Callout sets focus when displayed.
+   * On macOS: this determines whether the Callout becomes the key window.
+   * On win32: If true then the callout will attempt to focus the first focusable element that it contains.
    * If it doesn't find an element, no focus will be set. This means that it's the contents responsibility
    * to either set focus or have focusable items.
    */

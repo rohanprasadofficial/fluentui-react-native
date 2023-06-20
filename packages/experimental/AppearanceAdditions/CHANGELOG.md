@@ -1,8 +1,41 @@
 # Change Log - @fluentui-react-native/experimental-appearance-additions
 
-This log was last generated on Wed, 03 May 2023 07:08:52 GMT and should not be manually modified.
+This log was last generated on Mon, 12 Jun 2023 17:46:44 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.5.2
+
+Mon, 12 Jun 2023 17:46:44 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/framework to v0.11.0
+
+## 0.5.1
+
+Fri, 09 Jun 2023 15:29:07 GMT
+
+### Patches
+
+- Fix package using `use-subscription` at runtime but does not correctly declare dependencies (4123478+tido64@users.noreply.github.com)
+
+## 0.5.0
+
+Mon, 05 Jun 2023 19:26:22 GMT
+
+### Minor changes
+
+- Upgrade to React Native 0.71 (sanajmi@microsoft.com)
+- Bump @fluentui-react-native/framework to v0.10.0
+
+## 0.4.2
+
+Tue, 30 May 2023 20:34:15 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/framework to v0.9.10
 
 ## 0.4.1
 

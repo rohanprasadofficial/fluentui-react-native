@@ -1,8 +1,95 @@
 # Change Log - @fluentui-react-native/checkbox
 
-This log was last generated on Wed, 03 May 2023 07:08:52 GMT and should not be manually modified.
+This log was last generated on Mon, 19 Jun 2023 18:37:35 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.20.5
+
+Mon, 19 Jun 2023 18:37:35 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/interactive-hooks to v0.24.2
+- Bump @fluentui-react-native/pressable to v0.10.3
+- Bump @fluentui-react-native/text to v0.21.2
+
+## 0.20.4
+
+Sat, 17 Jun 2023 00:00:18 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/interactive-hooks to v0.24.1
+- Bump @fluentui-react-native/pressable to v0.10.2
+- Bump @fluentui-react-native/text to v0.21.1
+
+## 0.20.3
+
+Wed, 14 Jun 2023 12:05:51 GMT
+
+### Patches
+
+- Declare `"sideEffects": false` to help improve tree shaking (4123478+tido64@users.noreply.github.com)
+
+## 0.20.2
+
+Mon, 12 Jun 2023 17:46:44 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/framework to v0.11.0
+- Bump @fluentui-react-native/interactive-hooks to v0.24.0
+- Bump @fluentui-react-native/pressable to v0.10.1
+- Bump @fluentui-react-native/text to v0.21.0
+- Bump @fluentui-react-native/use-styling to v0.11.0
+- Bump @uifabricshared/foundation-compose to v1.14.1
+- Bump @uifabricshared/foundation-composable to v0.12.1
+- Bump @uifabricshared/foundation-settings to v0.13.1
+
+## 0.20.1
+
+Fri, 09 Jun 2023 15:29:07 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/text to v0.20.1
+
+## 0.20.0
+
+Mon, 05 Jun 2023 19:26:22 GMT
+
+### Minor changes
+
+- Upgrade to React Native 0.71 (sanajmi@microsoft.com)
+- Bump @fluentui-react-native/adapters to v0.11.0
+- Bump @fluentui-react-native/framework to v0.10.0
+- Bump @fluentui-react-native/interactive-hooks to v0.23.0
+- Bump @fluentui-react-native/pressable to v0.10.0
+- Bump @fluentui-react-native/styling-utils to v0.5.0
+- Bump @fluentui-react-native/text to v0.20.0
+- Bump @fluentui-react-native/theme-tokens to v0.25.0
+- Bump @fluentui-react-native/theming-utils to v0.24.0
+- Bump @fluentui-react-native/tokens to v0.21.0
+- Bump @fluentui-react-native/use-styling to v0.10.0
+- Bump @uifabricshared/foundation-compose to v1.14.0
+- Bump @uifabricshared/foundation-composable to v0.12.0
+- Bump @uifabricshared/foundation-settings to v0.13.0
+
+## 0.19.36
+
+Tue, 30 May 2023 20:34:15 GMT
+
+### Patches
+
+- Bump @fluentui-react-native/framework to v0.9.10
+- Bump @fluentui-react-native/interactive-hooks to v0.22.31
+- Bump @fluentui-react-native/pressable to v0.9.70
+- Bump @fluentui-react-native/text to v0.19.33
+- Bump @fluentui-react-native/theme-tokens to v0.24.7
+- Bump @fluentui-react-native/theming-utils to v0.23.12
+- Bump @fluentui-react-native/tokens to v0.20.16
+- Bump @uifabricshared/foundation-compose to v1.13.10
 
 ## 0.19.35
 
