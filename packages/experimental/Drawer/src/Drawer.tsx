@@ -28,7 +28,9 @@ export const Drawer = compose<DrawerType>({
     const drawerProps = useDrawer(userProps).props;
     const Slots = useSlots(userProps, (layer) => drawerLookup(layer, drawerProps));
     return (final: DrawerProps, children: React.ReactNode) => {
-      const { open, onClose, onScrimClick, animationConfig, drawerPosition, showHandle, ...rest } = mergeProps(drawerProps, final);
+      const { open, onClose, onScrimClick, animationConfig, drawerPosition, showHandle, bottomSheetAnimation, panResponder, ...rest } =
+        mergeProps(drawerProps, final);
+
       return (
         <Slots.modal
           {...rest}
@@ -39,10 +41,10 @@ export const Drawer = compose<DrawerType>({
           transparent
         >
           <Slots.scrim onPress={onScrimClick}>
-            <Slots.scrimContent style={[{ opacity: animationConfig.animatedOpacity }]} />
+            <Slots.scrimContent />
           </Slots.scrim>
-          <Slots.content style={animationConfig.animatedStyle}>
-            {drawerPosition === 'bottom' && showHandle && <Slots.handle />}
+          <Slots.content {...panResponder.panHandlers} style={bottomSheetAnimation}>
+            {drawerPosition === 'bottom' && showHandle && <Slots.handle {...panResponder.panHandlers} />}
             {children}
           </Slots.content>
         </Slots.modal>

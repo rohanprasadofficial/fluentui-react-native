@@ -1,17 +1,83 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
-import { Animated, Dimensions } from 'react-native';
+import { Animated, Dimensions, PanResponder } from 'react-native';
 
 import type { InteractionEvent } from '@fluentui-react-native/interactive-hooks';
 
 import type { DrawerProps, DrawerInfo } from './Drawer.types';
 
 const { height, width } = Dimensions.get('window');
+const WINDOW_HEIGHT = height;
+
+const BOTTOM_SHEET_MAX_HEIGHT = WINDOW_HEIGHT;
+const BOTTOM_SHEET_MIN_HEIGHT = WINDOW_HEIGHT * 0.5;
+const MAX_UPWARD_TRANSLATE_Y = BOTTOM_SHEET_MIN_HEIGHT - BOTTOM_SHEET_MAX_HEIGHT; // negative number;
+const MAX_DOWNWARD_TRANSLATE_Y = 0;
+const DRAG_THRESHOLD = 40;
 
 export const useDrawer = (props: DrawerProps): DrawerInfo => {
   const { onBlur, onFocus, accessibilityLabel, open, drawerPosition = 'left', showHandle = true, children, ...rest } = props;
   const animatedValue = useRef(new Animated.Value(0)).current;
   const [internalOpen, setInternalOpen] = useState(open);
   const [isFirstOpen, setIsFirstOpen] = useState(true);
+
+  const lastGestureDy = useRef(0);
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderGrant: () => {
+        animatedValue.setOffset(lastGestureDy.current);
+      },
+      onPanResponderMove: (_e, gesture) => {
+        animatedValue.setValue(gesture.dy);
+      },
+      onPanResponderRelease: (_e, gesture) => {
+        animatedValue.flattenOffset();
+        lastGestureDy.current += gesture.dy;
+
+        if (lastGestureDy.current < MAX_UPWARD_TRANSLATE_Y) {
+          lastGestureDy.current = MAX_UPWARD_TRANSLATE_Y;
+        } else if (lastGestureDy.current > MAX_DOWNWARD_TRANSLATE_Y) {
+          lastGestureDy.current = gesture.dy;
+        }
+
+        if (gesture.dy > 0) {
+          // dragging down
+          if (gesture.dy <= DRAG_THRESHOLD) {
+            springAnimation('up');
+          } else {
+            springAnimation('down');
+          }
+        } else {
+          // dragging up
+          if (gesture.dy >= -DRAG_THRESHOLD) {
+            springAnimation('down');
+          } else {
+            springAnimation('up');
+          }
+        }
+      },
+    }),
+  ).current;
+
+  const springAnimation = (direction: 'up' | 'down') => {
+    if (lastGestureDy.current >= 100) {
+      Animated.parallel([
+        Animated.spring(animatedValue, {
+          toValue: lastGestureDy.current,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        setInternalOpen(false);
+        props?.onClose && props.onClose({} as any);
+      });
+    }
+
+    lastGestureDy.current = direction === 'down' ? MAX_DOWNWARD_TRANSLATE_Y : MAX_UPWARD_TRANSLATE_Y;
+    Animated.spring(animatedValue, {
+      toValue: lastGestureDy.current,
+      useNativeDriver: true,
+    }).start();
+  };
 
   useEffect(() => {
     if (open) {
@@ -72,6 +138,21 @@ export const useDrawer = (props: DrawerProps): DrawerInfo => {
       drawerPosition === 'left' || drawerPosition === 'right' ? [{ translateX: animatedTranslateX }] : [{ translateY: animatedTranslateY }],
   };
 
+  const bottomSheetAnimation = {
+    transform:
+      drawerPosition === 'left' || drawerPosition === 'right'
+        ? [{ translateX: animatedTranslateX }]
+        : [
+            {
+              translateY: animatedValue.interpolate({
+                inputRange: [MAX_UPWARD_TRANSLATE_Y, MAX_DOWNWARD_TRANSLATE_Y],
+                outputRange: [MAX_UPWARD_TRANSLATE_Y, MAX_DOWNWARD_TRANSLATE_Y],
+                extrapolate: 'clamp',
+              }),
+            },
+          ],
+  };
+
   return {
     props: {
       ...rest,
@@ -84,6 +165,8 @@ export const useDrawer = (props: DrawerProps): DrawerInfo => {
       drawerPosition: drawerPosition ?? 'left',
       children,
       showHandle,
+      panResponder: drawerPosition == 'bottom' ? panResponder : {},
+      bottomSheetAnimation,
       open: internalOpen,
     },
   };
