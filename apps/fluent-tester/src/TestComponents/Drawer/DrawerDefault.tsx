@@ -59,6 +59,20 @@ export const DrawerDefault: React.FunctionComponent = () => {
                 Validate Children Clicked on Drawer
               </Button>
             </Stack>
+            <View style={drawerContentstyles.flexRow}>
+              <Avatar active={'active'} activeAppearance="ring" size={56} name="John Doe" avatarColor={'colorful'} />
+              <Text variant="headerSemibold" style={drawerContentstyles.text}>
+                John Doe
+              </Text>
+            </View>
+            <Switch style={drawerContentstyles.switch} defaultChecked={true} label={'Notifications'} />
+            <Stack gap={10}>
+              <Text variant="body1">This is the content of the drawer.</Text>
+              <Button onClick={handleDrawerClose}>Close Drawer</Button>
+              <Button appearance="outline" onClick={handleChildrenClick}>
+                Validate Children Clicked on Drawer
+              </Button>
+            </Stack>
           </View>
         </Drawer>
       </View>

@@ -4,6 +4,7 @@ import { buildProps } from '@fluentui-react-native/framework';
 import { DrawerName } from './Drawer.types';
 import type { DrawerTokens, DrawerSlotProps, DrawerProps } from './Drawer.types';
 import { defaultDrawerTokens } from './DrawerTokens';
+import { Dimensions } from 'react-native';
 
 export const stylingSettings: UseStylingOptions<DrawerProps, DrawerSlotProps, DrawerTokens> = {
   tokens: [defaultDrawerTokens, DrawerName],
@@ -36,7 +37,6 @@ export const stylingSettings: UseStylingOptions<DrawerProps, DrawerSlotProps, Dr
           right: tokens.rightPosition,
           left: tokens.leftPosition,
           bottom: 0,
-          // top: tokens.topPosition,
           backgroundColor: tokens.drawerBackgroundColor,
         },
       }),
